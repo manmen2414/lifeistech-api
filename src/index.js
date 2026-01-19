@@ -741,7 +741,7 @@ function checkIsLITPage() {
   );
 }
 
-async function checkToken() {
+async function checkCookieToken() {
   const res = await fetch(
     "https://player.lifeistech-lesson.jp/api/lesson_player/check_token",
     {},
@@ -760,3 +760,22 @@ async function checkToken() {
 }
 
 //https://player.lifeistech-lesson.jp/api/lesson_player/scenario?scenario_path=lesson%2Fpcbasic_win&project_name=webdesign
+module.exports = {
+  PAGE_COMPONENTS,
+  CheckWork,
+  CheckWorkResult,
+  Material,
+  Lesson,
+  Chapter,
+  Course,
+  Classroom,
+  User,
+  Myself,
+  PageFile,
+  PageImage,
+  PageDataTable,
+  Page,
+  getCharactorsImage,
+  checkIsLITPage,
+  checkCookieToken,
+};
