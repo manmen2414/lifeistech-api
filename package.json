@@ -1,0 +1,29 @@
+{
+  "name": "lifeistech-api",
+  "version": "1.0.0",
+  "description": "Life is tech! LessonのオリジナルWebページ内でユーザー情報にアクセスしちゃおう！！",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "build:types": "tsc",
+    "build:all": "npm run build && npm run build:types"
+  },
+  "types": "dist/types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manmen2414/lifeistech-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/manmen2414/lifeistech-api/issues"
+  },
+  "homepage": "https://github.com/manmen2414/lifeistech-api#readme",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

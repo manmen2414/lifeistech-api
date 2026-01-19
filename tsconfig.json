@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "allowJs": true, // JSファイルの入力を許可
+    "checkJs": true, // JS内のJSDocを型チェックする
+    "declaration": true, // .d.ts ファイルを出力する
+    "emitDeclarationOnly": true, // 型定義ファイルのみ出力（コード本体はWebpackがやるため）
+    "outDir": "./dist/types", // 型定義ファイルの出力先
+    "rootDir": "./",
+    "strict": true
+  },
+  "include": [
+    "src/**/*"
+  ] // 監視対象のソースコード
+}
