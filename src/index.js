@@ -31,23 +31,23 @@ const PAGE_COMPONENTS = {
   CH7_LIST_IMAGE: 36,
 };
 
-class LITCheckWork {
+class CheckWork {
   /**
-   * @param {LITLesson} lesson
+   * @param {Lesson} lesson
    */
   constructor(rawjson, lesson) {
     /**@type {number} */
     this.id = rawjson.id;
     this.lesson = lesson;
-    /**@type {LITCheckWorkResult[]} */
+    /**@type {CheckWorkResult[]} */
     this.results = [];
   }
 }
 
-class LITCheckWorkResult {
-  /**@param {LITChapter} chapter  */
+class CheckWorkResult {
+  /**@param {Chapter} chapter  */
   constructor(rawjson, chapter) {
-    /**@type {LITCheckWork?} */
+    /**@type {CheckWork?} */
     this.checkwork = null;
     /**@type {number} */
     this.id = rawjson.id;
@@ -67,15 +67,15 @@ class LITCheckWorkResult {
     };
     this.chapter = chapter;
   }
-  /**@param {LITCheckWork} checkwork */
+  /**@param {CheckWork} checkwork */
   isResultOf(checkwork) {
     return checkwork.id === this.rawCheckwork.id;
   }
 }
 
-class LITMaterial {
+class Material {
   /**
-   * @param {LITLesson} lesson
+   * @param {Lesson} lesson
    * @param {boolean} isWorksheet
    */
   constructor(rawjson, lesson, isWorksheet) {
@@ -99,8 +99,8 @@ class LITMaterial {
   }
 }
 
-class LITLesson {
-  /**@param {LITChapter} chapter  */
+class Lesson {
+  /**@param {Chapter} chapter  */
   constructor(rawjson, chapter) {
     /**@type {number} */
     this.id = rawjson.id;
@@ -117,8 +117,8 @@ class LITLesson {
   _setAdditionalInfo(rawjson) {
     /**@type {boolean} */
     this.isRange = rawjson.is_range;
-    /**@type {LITCheckWork[]} */
-    this.checkworks = rawjson.checkworks.map((j) => new LITCheckWork(j, this));
+    /**@type {CheckWork[]} */
+    this.checkworks = rawjson.checkworks.map((j) => new CheckWork(j, this));
     /**@type {any[]} */
     this.algorithmExercises = rawjson.algorithm_exercises;
   }
@@ -152,11 +152,9 @@ class LITLesson {
     }));
     /**@type {any} */
     this.continueLink = rawjson.continue_link;
-    this.materials = rawjson.materials.map(
-      (j) => new LITMaterial(j, this, false),
-    );
+    this.materials = rawjson.materials.map((j) => new Material(j, this, false));
     this.worksheetMaterials = rawjson.worksheet_materials.map(
-      (j) => new LITMaterial(j, this, true),
+      (j) => new Material(j, this, true),
     );
     /**@type {{id:number}} */
     this.htmlWork = rawjson.html_work;
@@ -168,8 +166,8 @@ class LITLesson {
   }
 }
 
-class LITChapter {
-  /**@param {LITCourse} course */
+class Chapter {
+  /**@param {Course} course */
 
   constructor(rawjson, course) {
     /**@type {number} */
@@ -188,8 +186,8 @@ class LITChapter {
     this.lessonGroupId = rawjson.lesson_group_id;
     /**@type {number?} */
     this.websiteId = rawjson.web_site_id;
-    /**@type {LITLesson[]} */
-    this.lessons = rawjson.lessons.map((l) => new LITLesson(l, this));
+    /**@type {Lesson[]} */
+    this.lessons = rawjson.lessons.map((l) => new Lesson(l, this));
     this.course = course;
   }
 
@@ -254,7 +252,7 @@ class LITChapter {
     /**@type {any[]} */
     const rawjson = await res.json();
     return rawjson.map((j) => {
-      const result = new LITCheckWorkResult(j, this);
+      const result = new CheckWorkResult(j, this);
       if (!!this.lessons) {
         // someはtrueが返ってきた瞬間に処理を終わりにするので効率がいい
         this.lessons.some((l) => {
@@ -274,20 +272,20 @@ class LITChapter {
   }
 }
 
-class LITCourse {
-  /**@param {LITUser} user */
+class Course {
+  /**@param {User} user */
   constructor(rawjson, user) {
     /**@type {number} */
     this.id = rawjson.id;
     /**@type {string} */
     this.name = rawjson.title;
-    /**@type {LITChapter[]} */
-    this.chapters = rawjson.chapters.map((c) => new LITChapter(c, this));
+    /**@type {Chapter[]} */
+    this.chapters = rawjson.chapters.map((c) => new Chapter(c, this));
     this.user = user;
   }
 }
 
-class LITClassroom {
+class Classroom {
   constructor(rawjson) {
     /**@type {number} */
     this.id = rawjson.id;
@@ -314,7 +312,7 @@ class LITClassroom {
   }
 }
 
-class LITUser {
+class User {
   /**@param {string} token */
   constructor(token) {
     /**@type {string} */
@@ -354,11 +352,11 @@ class LITUser {
     this.examAvailable = rawjson.examAvailable;
     /**@type {boolean} */
     this.accountAvailable = rawjson.accountAvailable;
-    /**@type {LITClassroom[]} */
-    this.classrooms = rawjson.lessonGroups.map((j) => new LITClassroom(j));
+    /**@type {Classroom[]} */
+    this.classrooms = rawjson.lessonGroups.map((j) => new Classroom(j));
   }
   /**
-   * @returns {Promise<LITPage[]>}
+   * @returns {Promise<Page[]>}
    */
   async getPages() {
     const res = await fetch(CH5_BASEAPI, {
@@ -369,7 +367,7 @@ class LITUser {
       mode: "cors",
     });
     const json = await res.json();
-    return json.player_web_sites.map((s) => new LITPage(s, this));
+    return json.player_web_sites.map((s) => new Page(s, this));
   }
   /**
    *
@@ -392,7 +390,7 @@ class LITUser {
     });
   }
 
-  /**@returns {Promise<LITCourse[]>} */
+  /**@returns {Promise<Course[]>} */
   async getCourses() {
     const res = await fetch(`${BASEAPI}/courses`, {
       headers: {
@@ -402,8 +400,8 @@ class LITUser {
       mode: "cors",
     });
     const rawjson = await res.json();
-    /**@type {LITCourse[]} */
-    this.courses = rawjson.courses.map((j) => new LITCourse(j, this));
+    /**@type {Course[]} */
+    this.courses = rawjson.courses.map((j) => new Course(j, this));
     return this.courses;
   }
 
@@ -426,7 +424,7 @@ class LITUser {
       mode: "cors",
     });
     const id = parseInt(await res.text());
-    return new LITPage({ id, name }, this);
+    return new Page({ id, name }, this);
   }
   /**
    * @returns {Promise<string>}
@@ -448,7 +446,7 @@ class LITUser {
     return typeof this.nickname === "string";
   }
 }
-class LITMyself extends LITUser {
+class Myself extends User {
   constructor() {
     super("");
   }
@@ -475,9 +473,9 @@ class LITMyself extends LITUser {
   }
 }
 
-class LITFile {
+class PageFile {
   /**
-   * @param {LITPage} page
+   * @param {Page} page
    */
   constructor(rawjson, page) {
     /**@type {number} */
@@ -511,9 +509,9 @@ class LITFile {
     return this.page.save();
   }
 }
-class LITImage {
+class PageImage {
   /**
-   * @param {LITPage} page
+   * @param {Page} page
    * @param {boolean} isPreset
    */
   constructor(isPreset, rawjson, page) {
@@ -544,9 +542,9 @@ class LITImage {
   }
 }
 
-class LITDataTable {
+class PageDataTable {
   /**
-   * @param {LITPage} page
+   * @param {Page} page
    */
   constructor(rawjson, page) {
     this.page = page;
@@ -589,8 +587,8 @@ class LITDataTable {
   }
 }
 
-class LITPage {
-  /**@param {LITUser} user */
+class Page {
+  /**@param {User} user */
   constructor(rawjson, user) {
     /**@type {number} */
     this.id = rawjson.id;
@@ -612,15 +610,17 @@ class LITPage {
     this.name = rawjson.title;
     /**@type {string} */
     this.previewUrl = rawjson.preview_url;
-    /**@type {LITDataTable[]} */
-    this.dataTables = rawjson.data_tables.map((j) => new LITDataTable(j, this));
-    /**@type {LITFile[]} */
-    this.files = rawjson.files.map((j) => new LITFile(j, this));
-    /**@type {LITImage[]} */
-    this.images = rawjson.images.map((j) => new LITImage(false, j, this));
-    /**@type {LITImage[]} */
+    /**@type {PageDataTable[]} */
+    this.dataTables = rawjson.data_tables.map(
+      (j) => new PageDataTable(j, this),
+    );
+    /**@type {PageFile[]} */
+    this.files = rawjson.files.map((j) => new PageFile(j, this));
+    /**@type {PageImage[]} */
+    this.images = rawjson.images.map((j) => new PageImage(false, j, this));
+    /**@type {PageImage[]} */
     this.presetImages = rawjson.preset_images.map(
-      (j) => new LITImage(true, j, this),
+      (j) => new PageImage(true, j, this),
     );
     return res;
   }
@@ -711,7 +711,7 @@ class LITPage {
   }
 }
 
-async function GetLITCharactors() {
+async function getCharactorsImage() {
   /**@type {string[]} */
   const charaDatas = [];
   const data = await fetch("https://member.lifeistech-lesson.jp/app-bundle.js");
@@ -735,7 +735,7 @@ async function GetLITCharactors() {
   };
 }
 
-function checkIsLITOrigin() {
+function checkIsLITPage() {
   return /^http(s)?:\/\/(www\.)?member.lifeistech-lesson\.jp\/html_preview\/player_web_sites/.test(
     location.href,
   );
