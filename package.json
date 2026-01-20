@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "build:types": "tsc",
+    "build:types": "xcopy /ye src\\types\\ dist\\types\\src\\types\\ && tsc",
     "build:all": "npm run build && npm run build:types"
   },
   "types": "dist/types/index.d.ts",
