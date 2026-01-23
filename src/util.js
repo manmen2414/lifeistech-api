@@ -1,3 +1,5 @@
+const { AccountNotAvailableError } = require("./errors");
+
 const API_URL = "https://api.lifeistech-lesson.jp/api/players";
 const API_CH5_URL = API_URL + "/chapters/36/web_sites/1/player_web_sites";
 /**
@@ -79,6 +81,33 @@ class DeferedArray extends Array {
   }
 }
 
+/**
+ * JSON化可能かどうかをReturn[0]に、
+ * JSON化できた場合のオブジェクトをReturn[1]に記録する。
+ * @param {string} str
+ * @returns {[parseable:boolean,parsed?:any]}
+ */
+function tryJSONParse(str) {
+  try {
+    return [true, JSON.parse(str)];
+  } catch (ex) {
+    return [false];
+  }
+}
+
+/**
+ * レスポンスで認証エラーが発生していないか確認し、\
+ * 発生しているなら例外をスローし、していないならjson化したものを返します。
+ *
+ * // TODO:jsonの分離化。案外使いづらかった。
+ * @param {Response} res
+ */
+async function checkAuthParseJSON(res) {
+  if (res.status === 401)
+    throw new AccountNotAvailableError("Account is not available");
+  return await res.json();
+}
+
 module.exports = {
   getCharactorsImage,
   checkIsLITPage,
@@ -86,4 +115,6 @@ module.exports = {
   API_URL,
   API_CH5_URL,
   DeferedArray,
+  tryJSONParse,
+  checkAuthParseJSON,
 };
