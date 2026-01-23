@@ -1,0 +1,29 @@
+name: Generate Library and Declare files
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22.x"
+      - run: npm install
+      - run: npm run build:all
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: Commit & Push
+        run: |
+          set -x
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .
+          git commit --author=. -m 'Generated: Library and d.ts files'
+          git push
