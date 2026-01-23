@@ -12,10 +12,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "22.x"
+      - run: pwd
       - run: npm install
       - run: npm run build:all
-      - name: Dev-pwd
-        run: pwd
       - name: Commit & Push
         run: |
           set -x
