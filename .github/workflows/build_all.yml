@@ -3,7 +3,7 @@ name: Generate Library and Declare files
 on: [push]
 
 jobs:
-  build:
+  build-commit:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
@@ -14,11 +14,8 @@ jobs:
           node-version: "22.x"
       - run: npm install
       - run: npm run build:all
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v3
+      - name: Dev-pwd
+        run: pwd
       - name: Commit & Push
         run: |
           set -x
