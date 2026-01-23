@@ -1,8 +1,8 @@
 const path = require("path");
 
 module.exports = {
-  //mode: "production",
-  mode: "development",
+  mode: "production",
+  // mode: "development",
   entry: "./src/index.js", // 入力ファイル
   output: {
     path: path.resolve(__dirname, "dist"),
