@@ -17,7 +17,10 @@ export class PageBase implements Loadable<Page> {
     user: import("./user.js").UserBase;
     load(): Promise<Page>;
     getLoaded(): Promise<Page>;
-    /**@param {PageFile[]} files  */
+    /**
+     * ページのファイルを保存する。
+     * @param {PageFile[]} files
+     */
     save(files: PageFile[]): Promise<{
         successed: boolean;
         errorAt: {
@@ -27,7 +30,10 @@ export class PageBase implements Loadable<Page> {
             property: string | null;
         };
     }>;
-    /**@param {PageFile[]} files  */
+    /**
+     * ページのファイルを保存する。
+     * @param {PageFile[]} files
+     */
     applyFiles(files: PageFile[]): Promise<{
         successed: boolean;
         errorAt: {
@@ -38,6 +44,7 @@ export class PageBase implements Loadable<Page> {
         };
     }>;
     /**
+     * ページにファイルを追加する。
      * @param {string} name
      * @param {"html"|"css"|"js"} extension
      * @returns {Promise<boolean|{error:string}>}
@@ -45,13 +52,23 @@ export class PageBase implements Loadable<Page> {
     addFile(name: string, extension: "html" | "css" | "js"): Promise<boolean | {
         error: string;
     }>;
-    /**@param {boolean} formatToDataUrl  */
+    /**
+     * ページをzipファイルのBase64形式でダウンロードする。
+     * @param {boolean} formatToDataUrl
+     */
     getZipB64(formatToDataUrl: boolean): Promise<string>;
     /**
+     * 画像をBase64形式からアップロードする。
      * @param {string} base64
      * @param {string} name
      */
     uploadImage(name: string, base64: string): Promise<void>;
+    /**
+     * ページを改名する。
+     * @param {string} newName
+     * @returns {import("./types/page.js").RenameReturns}
+     */
+    rename(newName: string): import("./types/page.js").RenameReturns;
 }
 export class Page extends PageBase {
     /**

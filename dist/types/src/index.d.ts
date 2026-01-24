@@ -14,11 +14,17 @@ declare const _exports: {
     PageDataTable: typeof import("./pageComponents").PageDataTable;
     PageBase: typeof import("./page").PageBase;
     Page: typeof import("./page").Page;
+    Material: typeof import("./material").Material;
     LessonGroup: typeof import("./lessongroup").LessonGroup;
     Classroom: typeof import("./lessongroup").Classroom;
+    Lesson: typeof import("./lesson").Lesson;
+    LessonBase: typeof import("./lesson").LessonBase;
     AccountNotAvailableError: typeof import("./errors").AccountNotAvailableError;
     UnexpectedResponseError: typeof import("./errors").UnexpectedResponseError;
     Course: typeof import("./course").Course;
+    CheckWorkResult: typeof import("./checkWorkResult").CheckWorkResult;
+    CheckWork: typeof import("./checkWork").CheckWork;
     ChapterBase: typeof import("./chapter").ChapterBase;
+    Chapter: typeof import("./chapter").Chapter;
 };
 export = _exports;
