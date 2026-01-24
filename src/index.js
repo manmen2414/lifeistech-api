@@ -1,8 +1,12 @@
 module.exports = {
   ...require("./chapter"),
+  ...require("./checkWork"),
+  ...require("./checkWorkResult"),
   ...require("./course"),
   ...require("./errors"),
+  ...require("./lesson"),
   ...require("./lessongroup"),
+  ...require("./material"),
   ...require("./page"),
   ...require("./pageComponents"),
   ...require("./user"),
