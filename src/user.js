@@ -113,7 +113,7 @@ class UserBase {
     const rawjson = await checkAuthParseJSON(res);
     return rawjson.courses.map(
       /**@param {{id:number,title:string,chapter:ChapterBase[]}} j*/
-      (j) => new Course(),
+      (j) => new Course(j, this),
     );
   }
 
