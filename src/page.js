@@ -38,7 +38,10 @@ class PageBase {
     if (!this.loaded) return await this.load();
     return this.loaded;
   }
-  /**@param {PageFile[]} files  */
+  /**
+   * ページのファイルを保存する。
+   * @param {PageFile[]} files
+   */
   async save(files) {
     const body = {
       files: files.map((f) => ({ content: f.content, filename: f.name })),
@@ -79,13 +82,14 @@ class PageBase {
     return ret;
   }
   /**
-   * @deprecated
+   * @deprecated saveを利用してください。
    * @type {typeof PageBase.prototype.save}
    */
   applyFiles(...args) {
     return this.save(...args);
   }
   /**
+   * ページにファイルを追加する。
    * @param {string} name
    * @param {"html"|"css"|"js"} extension
    * @returns {Promise<boolean|{error:string}>}
@@ -111,7 +115,10 @@ class PageBase {
     if (!!this.loaded) this.loaded.load();
     return json;
   }
-  /**@param {boolean} formatToDataUrl  */
+  /**
+   * ページをzipファイルのBase64形式でダウンロードする。
+   * @param {boolean} formatToDataUrl
+   */
   async getZipB64(formatToDataUrl) {
     const res = await fetch(`${API_CH5_URL}/${this.id}/archive`, {
       headers: {
@@ -127,6 +134,7 @@ class PageBase {
     return b64;
   }
   /**
+   * 画像をBase64形式からアップロードする。
    * @param {string} base64
    * @param {string} name
    */
@@ -150,6 +158,32 @@ class PageBase {
     //TODO: レ(ry
     const json = await checkAuthParseJSON(res);
     if (!!this.loaded) this.loaded.load();
+  }
+  /**
+   * ページを改名する。
+   * @param {string} newName
+   * @returns {import("./types/page.js").RenameReturns}
+   */
+  async rename(newName) {
+    const res = await fetch(`${API_CH5_URL}/${this.id}`, {
+      headers: {
+        authorization: `Bearer ${this.user.token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ title: newName }),
+      method: "POST",
+      mode: "cors",
+    });
+    const json = await checkAuthParseJSON(res);
+    if (!!json.error) {
+      return {
+        successed: false,
+        error: {
+          emptyTitle: json.error.includes("サイト名を入力してください"),
+        },
+      };
+    }
+    return { successed: true };
   }
 }
 
