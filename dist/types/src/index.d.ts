@@ -1,0 +1,24 @@
+declare const _exports: {
+    getCharactorsImage: typeof import("./util").getCharactorsImage;
+    checkIsLITPage: typeof import("./util").checkIsLITPage;
+    checkCookieToken: typeof import("./util").checkCookieToken;
+    API_URL: "https://api.lifeistech-lesson.jp/api/players";
+    API_CH5_URL: string;
+    DeferedArray: typeof import("./util").DeferedArray;
+    tryJSONParse: typeof import("./util").tryJSONParse;
+    checkAuthParseJSON: typeof import("./util").checkAuthParseJSON;
+    UserBase: typeof import("./user").UserBase;
+    User: typeof import("./user").User;
+    PageFile: typeof import("./pageComponents").PageFile;
+    PageImage: typeof import("./pageComponents").PageImage;
+    PageDataTable: typeof import("./pageComponents").PageDataTable;
+    PageBase: typeof import("./page").PageBase;
+    Page: typeof import("./page").Page;
+    LessonGroup: typeof import("./lessongroup").LessonGroup;
+    Classroom: typeof import("./lessongroup").Classroom;
+    AccountNotAvailableError: typeof import("./errors").AccountNotAvailableError;
+    UnexpectedResponseError: typeof import("./errors").UnexpectedResponseError;
+    Course: typeof import("./course").Course;
+    ChapterBase: typeof import("./chapter").ChapterBase;
+};
+export = _exports;
