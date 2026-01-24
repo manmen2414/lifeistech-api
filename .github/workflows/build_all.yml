@@ -23,6 +23,6 @@ jobs:
           set -x
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .
+          git add -f dist/
           git commit --author=. -m 'Generated: Library and d.ts files'
           git push
