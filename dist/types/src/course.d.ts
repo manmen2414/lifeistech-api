@@ -9,8 +9,8 @@ export class Course {
     id: number;
     /**@type {string} コース名。*/
     name: string;
-    /**@type {ChapterBase} */
-    chapters: ChapterBase;
+    /**@type {ChapterBase[]} */
+    chapters: ChapterBase[];
     /**@type {UserBase} 取得元のユーザー。*/
     user: UserBase;
 }

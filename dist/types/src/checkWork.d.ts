@@ -7,5 +7,6 @@ export class CheckWork {
     /**@type {number} */
     id: number;
     lesson: import("./lesson").LessonBase;
-    getAnswerer(): void;
+    getAnswerer(): Promise<CheckWorkAnswerer>;
 }
+import { CheckWorkAnswerer } from "./checkWorkAnswerer";
