@@ -22,8 +22,6 @@ declare const _exports: {
     AccountNotAvailableError: typeof import("./errors").AccountNotAvailableError;
     UnexpectedResponseError: typeof import("./errors").UnexpectedResponseError;
     Course: typeof import("./course").Course;
-    CheckWorkAnswerer: typeof import("./checkWorkAnswerer").CheckWorkAnswerer;
-    CheckWorkQuestion: typeof import("./checkWorkAnswerer").CheckWorkQuestion;
     CheckWorkResult: typeof import("./checkWorkResult").CheckWorkResult;
     CheckWork: typeof import("./checkWork").CheckWork;
     ChapterBase: typeof import("./chapter").ChapterBase;
