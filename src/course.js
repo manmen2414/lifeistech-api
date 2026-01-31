@@ -12,7 +12,7 @@ class Course {
     this.id = rawjson.id;
     /**@type {string} コース名。*/
     this.name = rawjson.title;
-    /**@type {ChapterBase} */
+    /**@type {ChapterBase[]} */
     this.chapters = rawjson.chapters.map(
       /**@param {any} c  */
       (c) => new ChapterBase(c, this),

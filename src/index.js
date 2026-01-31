@@ -2,6 +2,7 @@ module.exports = {
   ...require("./chapter"),
   ...require("./checkWork"),
   ...require("./checkWorkResult"),
+  ...require("./checkWorkAnswerer"),
   ...require("./course"),
   ...require("./errors"),
   ...require("./lesson"),
