@@ -63,6 +63,24 @@ class ChapterBase {
     if (!this.loaded) return await this.load();
     return this.loaded;
   }
+  /**
+   * このチャプター下のチェックワークの結果を全て取得する。
+   */
+  async getCheckworkScores() {
+    const res = await fetch(
+      `${API_URL}/chapters/${this.id}/player_checkwork_scores`,
+      {
+        headers: {
+          authorization: `Bearer ${this.course.user.token}`,
+        },
+        method: "GET",
+        mode: "cors",
+      },
+    );
+    /**@type {any[]} */
+    const rawjson = await checkAuthParseJSON(res);
+    return rawjson.map((j) => new CheckWorkResult(j, this));
+  }
 }
 
 class Chapter extends ChapterBase {
@@ -140,21 +158,6 @@ class Chapter extends ChapterBase {
       /**@param {any} l*/ (l) => new LessonBase(l, this),
     );
     return this;
-  }
-  async getCheckworkScores() {
-    const res = await fetch(
-      `${API_URL}/chapters/${this.id}/player_checkwork_scores`,
-      {
-        headers: {
-          authorization: `Bearer ${this.course.user.token}`,
-        },
-        method: "GET",
-        mode: "cors",
-      },
-    );
-    /**@type {any[]} */
-    const rawjson = await checkAuthParseJSON(res);
-    return rawjson.map((j) => new CheckWorkResult());
   }
 }
 

@@ -99,7 +99,7 @@ class Lesson extends LessonBase {
     const rawjson = await checkAuthParseJSON(res);
     this.isRange = rawjson.is_range;
     this.checkworks = rawjson.checkworks.map(
-      /**@param {any} j*/ (j) => new CheckWork(),
+      /**@param {any} j*/ (j) => new CheckWork(j, this),
     );
     this.algorithmExercises = rawjson.algorithm_exercises;
     this.description = rawjson.description;
