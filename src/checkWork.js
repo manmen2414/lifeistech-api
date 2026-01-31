@@ -13,7 +13,7 @@ class CheckWork {
   }
   async getAnswerer() {
     const res = await fetch(
-      `${API_URL}/chapters/${this.id}/lessons/${this.lesson.id}/checkworks/next`,
+      `${API_URL}/chapters/${this.lesson.chapter.id}/lessons/${this.lesson.id}/checkworks/next`,
       {
         headers: {
           authorization: `Bearer ${this.lesson.chapter.course.user.token}`,
