@@ -5,7 +5,7 @@ module.exports = {
   // mode: "development",
   entry: "./src/index.js", // 入力ファイル
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "public"),
     filename: "lit-api.js", // 出力される単一ファイル名
     library: {
       name: "LifeIsTechAPI", // ブラウザで <script> 読み込みした時のグローバル変数名
