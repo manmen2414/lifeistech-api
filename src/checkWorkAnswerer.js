@@ -15,7 +15,7 @@ class CheckWorkAnswerer {
     /**@type {number} チェックワークのあるレッスンID。*/
     this.lessonId = rawjson.lesson.id;
     /**@type {string} チェックワークのあるレッスン名。*/
-    this.lessonName = rawjson.lesson.name;
+    this.lessonName = rawjson.lesson.title;
     /**@type {number} */
     this.patternNum = rawjson.pattern_num;
     /**@type {number} 何回目の解答をしようとしているか。*/
@@ -47,7 +47,7 @@ class CheckWorkAnswerer {
     };
 
     const res = await fetch(
-      `${API_URL}/chapters/${this.id}/lessons/${this.lessonId}/checkworks`,
+      `${API_URL}/chapters/${this.checkWork.lesson.chapter.id}/lessons/${this.lessonId}/checkworks`,
       {
         headers: {
           authorization: `Bearer ${this.checkWork.lesson.chapter.course.user.token}`,
