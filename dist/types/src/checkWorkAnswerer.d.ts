@@ -33,9 +33,10 @@ export class CheckWorkAnswerer {
 export class CheckWorkQuestion {
     /**
      * @param {any} rawjson
+     * @param {number} index
      * @param {CheckWorkAnswerer} answerer
      */
-    constructor(rawjson: any, answerer: CheckWorkAnswerer);
+    constructor(rawjson: any, index: number, answerer: CheckWorkAnswerer);
     /**@type {number} 問題のID。*/
     id: number;
     /**@type {string} 問題の本文。*/
