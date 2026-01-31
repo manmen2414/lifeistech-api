@@ -1,3 +1,4 @@
+// TODO: loadableに変更
 class CheckWorkResult {
   /**
    * @param {any} rawjson

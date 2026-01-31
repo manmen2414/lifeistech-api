@@ -10,7 +10,7 @@
     "checkJs": true, // JS内のJSDocを型チェックする
     "declaration": true, // .d.ts ファイルを出力する
     "emitDeclarationOnly": true, // 型定義ファイルのみ出力（コード本体はWebpackがやるため）
-    "outDir": "./dist/types", // 型定義ファイルの出力先
+    "outDir": "./types", // 型定義ファイルの出力先
     "rootDir": "./",
     "strict": true
   },

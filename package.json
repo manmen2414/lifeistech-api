@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "build:types-win": "xcopy /ye src\\types\\ dist\\types\\src\\types\\ && tsc",
-    "build:types": "tsc --noCheck && cp -rf ./src/types/* ./dist/types/src/types/",
+    "build:types-win": "xcopy /ye src\\types\\ types\\src\\types\\ && tsc",
+    "build:types": "tsc --noCheck && cp -rf ./src/types/* ./types/src/types/",
     "build:all-win": "npm run build && npm run build:types-win",
     "build:all": "npm run build && npm run build:types"
   },
