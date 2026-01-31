@@ -23,8 +23,10 @@ class CheckWorkAnswerer {
 
     /**@type {CheckWorkQuestion[]} */
     this.questions = rawjson.questions.map(
-      /**@param {any} r  */
-      (r) => new CheckWorkQuestion(r, this),
+      /**
+       * @param {number} i
+       * @param {any} r*/
+      (r, i) => new CheckWorkQuestion(r, i, this),
     );
 
     this.checkWork = checkWork;
@@ -101,9 +103,10 @@ class CheckWorkAnswerer {
 class CheckWorkQuestion {
   /**
    * @param {any} rawjson
+   * @param {number} index
    * @param {CheckWorkAnswerer} answerer
    */
-  constructor(rawjson, answerer) {
+  constructor(rawjson, index, answerer) {
     /**@type {number} 問題のID。*/
     this.id = rawjson.id;
     /**@type {string} 問題の本文。*/
@@ -125,8 +128,7 @@ class CheckWorkQuestion {
     this.hintPlayerLink = rawjson.hint_player_link;
 
     /**@type {number} */
-    this.index = answerer.questions.indexOf(this);
-    if (this.index === -1) throw new Error("invalid Question");
+    this.index = index;
 
     this.answerer = answerer;
   }
