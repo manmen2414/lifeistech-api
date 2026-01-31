@@ -22,7 +22,7 @@ class CheckWork {
         mode: "cors",
       },
     );
-    const json = checkAuthParseJSON(res);
+    const json = await checkAuthParseJSON(res);
     return new CheckWorkAnswerer(json, this);
   }
 }
