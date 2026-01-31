@@ -42,6 +42,10 @@ export class ChapterBase implements Loadable<Chapter> {
      * でなければリクエストを行ってオブジェクトを取得する。
      */
     getLoaded(): Promise<Chapter>;
+    /**
+     * このチャプター下のチェックワークの結果を全て取得する。
+     */
+    getCheckworkScores(): Promise<CheckWorkResult[]>;
 }
 export class Chapter extends ChapterBase {
     /**
@@ -66,7 +70,6 @@ export class Chapter extends ChapterBase {
     goal: string;
     load(): Promise<this>;
     isLogining: boolean | undefined;
-    getCheckworkScores(): Promise<CheckWorkResult[]>;
 }
 import { LessonBase } from "./lesson.js";
 import { CheckWorkResult } from "./checkWorkResult.js";
