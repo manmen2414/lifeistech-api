@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   // mode: "production",
   mode: "development",
-  entry: "./src/index.js", // 入力ファイル
+  entry: "./dist/index.js", // 入力ファイル
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "lit-api.js", // 出力される単一ファイル名
