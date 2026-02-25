@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:types-win": "xcopy /ye src\\types\\ types\\src\\types\\ && tsc",
-    "build:types": "tsc --noCheck && cp -rf ./src/types/* ./types/src/types/",
+    "build:types": "tsc && cp -rf ./src/types/* ./types/src/types/",
     "build:all-win": "npm run build && npm run build:types-win",
     "build:all": "npm run build && npm run build:types"
   },
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/manmen2414/lifeistech-api#readme",
   "devDependencies": {
+    "dts-bundle-generator": "^9.5.1",
     "typescript": "^5.9.3",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1"

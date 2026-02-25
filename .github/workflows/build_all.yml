@@ -17,12 +17,13 @@ jobs:
         with:
           node-version: "22.x"
       - run: npm install
-      - run: npm run build:all
+      - run: ./build.sh
       - name: Commit & Push
         run: |
           set -x
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -f dist/
           git add -f types/
           git commit --author=. -m 'Generated: Library and d.ts files'
           git push

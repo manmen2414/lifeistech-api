@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "bundler", // これが現在の「es系統」との黄金コンビです
     "lib": [
       "ESNext",
       "DOM"
@@ -12,7 +13,8 @@
     "emitDeclarationOnly": true, // 型定義ファイルのみ出力（コード本体はWebpackがやるため）
     "outDir": "./types", // 型定義ファイルの出力先
     "rootDir": "./",
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"
