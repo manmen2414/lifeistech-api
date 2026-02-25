@@ -47,11 +47,9 @@ export class PageBase implements Loadable<Page> {
      * ページにファイルを追加する。
      * @param {string} name
      * @param {"html"|"css"|"js"} extension
-     * @returns {Promise<boolean|{error:string}>}
+     * @returns {import("./types/page.js").AddFileReturns}
      */
-    addFile(name: string, extension: "html" | "css" | "js"): Promise<boolean | {
-        error: string;
-    }>;
+    addFile(name: string, extension: "html" | "css" | "js"): import("./types/page.js").AddFileReturns;
     /**
      * ページをzipファイルのBase64形式でダウンロードする。
      * @param {boolean} formatToDataUrl
@@ -61,8 +59,9 @@ export class PageBase implements Loadable<Page> {
      * 画像をBase64形式からアップロードする。
      * @param {string} base64
      * @param {string} name
+     * @returns {import("./types/page.js").UploadImageReturns}
      */
-    uploadImage(name: string, base64: string): Promise<void>;
+    uploadImage(name: string, base64: string): import("./types/page.js").UploadImageReturns;
     /**
      * ページを改名する。
      * @param {string} newName

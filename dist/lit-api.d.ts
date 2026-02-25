@@ -51,6 +51,28 @@ export type RenameReturns = Promise<{
 		emptyTitle: boolean;
 	};
 }>;
+export type AddFileReturns = Promise<{
+	successed: true;
+} | {
+	successed: false;
+	error: {
+		/**ファイル形式が非対応。 */
+		unsupportedMediaType: boolean;
+	};
+}>;
+export type UploadImageReturns = Promise<{
+	successed: true;
+} | {
+	successed: false;
+	error: {
+		/**ファイル形式が非対応。 */
+		unsupportedMediaType: boolean;
+		/**ファイルが未入力。 */
+		emptyFile: boolean;
+		/**ファイル名が長すぎる。 */
+		tooLongFileName: boolean;
+	};
+}>;
 export type Page = Page$1;
 type FileMinetypes$1 = FileMinetypes;
 declare class PageFile {
@@ -205,11 +227,9 @@ declare class PageBase implements Loadable$1<Page$1> {
 	 * ページにファイルを追加する。
 	 * @param {string} name
 	 * @param {"html"|"css"|"js"} extension
-	 * @returns {Promise<boolean|{error:string}>}
+	 * @returns {import("./types/page.js").AddFileReturns}
 	 */
-	addFile(name: string, extension: "html" | "css" | "js"): Promise<boolean | {
-		error: string;
-	}>;
+	addFile(name: string, extension: "html" | "css" | "js"): AddFileReturns;
 	/**
 	 * ページをzipファイルのBase64形式でダウンロードする。
 	 * @param {boolean} formatToDataUrl
@@ -219,8 +239,9 @@ declare class PageBase implements Loadable$1<Page$1> {
 	 * 画像をBase64形式からアップロードする。
 	 * @param {string} base64
 	 * @param {string} name
+	 * @returns {import("./types/page.js").UploadImageReturns}
 	 */
-	uploadImage(name: string, base64: string): Promise<void>;
+	uploadImage(name: string, base64: string): UploadImageReturns;
 	/**
 	 * ページを改名する。
 	 * @param {string} newName
