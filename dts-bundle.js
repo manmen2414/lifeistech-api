@@ -11,4 +11,4 @@ const result = dtsbundle.generateDtsBundle([
     },
   },
 ]);
-fs.writeFileSync(path.resolve(`${here}/dist/LifeIsTechAPI.d.ts`), result[0]);
+fs.writeFileSync(path.resolve(`${here}/dist/lit-api.d.ts`), result[0]);

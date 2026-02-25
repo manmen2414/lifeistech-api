@@ -32,11 +32,11 @@ JS内で`LifeIsTechAPI`としてインポートされます。
 const LifeIsTechAPI = require("./path/to/lit-api.js");
 ```
 
-VSCodeであれば、lifeistech-api.d.tsをプロジェクトのフォルダにコピーし、スプリクトに以下を追記すると型参照されます。  
+VSCodeであれば、`dist/lit-api.d.ts`をプロジェクトのフォルダにコピーし、スプリクトに以下を追記すると型参照されます。  
 <sub>いつかnpmに公開して自動で型参照されるようにしてみたいですね</sub>
 
 ```js  
-/// <reference path="lifeistech-api.d.ts" />  
+/// <reference path="lit-api.d.ts" />  
 ```
 
 ## Examples
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // index.htmlを取得する
   const index = page.files.find((file)=>file.name === "index.html");
   // 書き換える
-  index.content = `<html></html><body>Hello, World!</body></html>`;
+  index.content = `<html><head></head><body>Hello, World!</body></html>`;
   // 保存する
   await page.save();
   // リンクの提示
