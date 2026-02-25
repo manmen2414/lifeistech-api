@@ -55,7 +55,6 @@ class PageBase {
       method: "POST",
       mode: "cors",
     });
-    //TODO: レスポンス(ry
     const json = await checkAuthParseJSON(res);
     if (!!this.loaded) this.loaded.load();
     const ret = {
@@ -92,7 +91,7 @@ class PageBase {
    * ページにファイルを追加する。
    * @param {string} name
    * @param {"html"|"css"|"js"} extension
-   * @returns {Promise<boolean|{error:string}>}
+   * @returns {import("./types/page.js").AddFileReturns}
    */
   async addFile(name, extension) {
     const body = {
@@ -110,10 +109,17 @@ class PageBase {
       method: "POST",
       mode: "cors",
     });
-    //TODO: レスポ(ry
     const json = await checkAuthParseJSON(res);
-    if (!!this.loaded) this.loaded.load();
-    return json;
+    const error = {
+      unsupportedMediaType: false,
+    };
+    if (!json.error) {
+      if (!!this.loaded) this.loaded.load();
+      return { successed: true };
+    }
+    if (json.error === "Unsupported Media Type")
+      error.unsupportedMediaType = true;
+    return { successed: false, error };
   }
   /**
    * ページをzipファイルのBase64形式でダウンロードする。
@@ -137,6 +143,7 @@ class PageBase {
    * 画像をBase64形式からアップロードする。
    * @param {string} base64
    * @param {string} name
+   * @returns {import("./types/page.js").UploadImageReturns}
    */
   async uploadImage(name, base64) {
     const blob = atob(base64.replace(/^.*,/, ""));
@@ -155,9 +162,32 @@ class PageBase {
       method: "POST",
       mode: "cors",
     });
-    //TODO: レ(ry
     const json = await checkAuthParseJSON(res);
-    if (!!this.loaded) this.loaded.load();
+    if (!json.error) {
+      if (!!this.loaded) this.loaded.load();
+      return { successed: true };
+    }
+    const error = {
+      emptyFile: false,
+      unsupportedMediaType: false,
+      tooLongFileName: false,
+    };
+    if (typeof json.error === "string") {
+      if (json.error === "file is missing") error.emptyFile = true;
+      return { successed: false, error };
+    }
+    if (Array.isArray(json.error)) {
+      error.tooLongFileName = json.error.includes(
+        "・ファイル名は全角10文字 (半角20文字) 以内で入力してください",
+      );
+      error.unsupportedMediaType = json.error.includes(
+        "・この形式のファイルはアップロードできません",
+      );
+      return { successed: false, error };
+    }
+    throw new UnexpectedResponseError(
+      `Recieved Response on upload image: ${JSON.stringify(json)}`,
+    );
   }
   /**
    * ページを改名する。

@@ -1,3 +1,5 @@
+import { PageFile } from "../pageComponents";
+
 type FileMinetypes = "text/html" | "text/css" | "application/javascript";
 type RenameReturns = Promise<
   | { successed: true }
@@ -9,5 +11,29 @@ type RenameReturns = Promise<
       };
     }
 >;
+type AddFileReturns = Promise<
+  | { successed: true }
+  | {
+      successed: false;
+      error: {
+        /**ファイル形式が非対応。 */
+        unsupportedMediaType: boolean;
+      };
+    }
+>;
+type UploadImageReturns = Promise<
+  | { successed: true }
+  | {
+      successed: false;
+      error: {
+        /**ファイル形式が非対応。 */
+        unsupportedMediaType: boolean;
+        /**ファイルが未入力。 */
+        emptyFile: boolean;
+        /**ファイル名が長すぎる。 */
+        tooLongFileName: boolean;
+      };
+    }
+>;
 
-export { FileMinetypes, RenameReturns };
+export { FileMinetypes, RenameReturns, AddFileReturns, UploadImageReturns };

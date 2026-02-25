@@ -34,7 +34,6 @@ class LessonBase {
   async load() {
     const lesson = new Lesson(this);
     await lesson.load();
-    //TODO: load時にこっちの値も同期させる
     this.loaded = lesson;
     return lesson;
   }
