@@ -1,4 +1,5 @@
 const { AccountNotAvailableError } = require("./errors");
+const z = require("zod");
 
 const API_URL = "https://api.lifeistech-lesson.jp/api/players";
 const API_CH5_URL = API_URL + "/chapters/36/web_sites/1/player_web_sites";
@@ -108,6 +109,15 @@ async function checkAuthParseJSON(res) {
   return await res.json();
 }
 
+const CharactorAvatarsEnum = z.enum([
+  "hero1_conv",
+  "hero2_conv",
+  "hero3_conv",
+  "heroine1_conv",
+  "heroine2_conv",
+  "heroine3_conv",
+]);
+
 module.exports = {
   getCharactorsImage,
   checkIsLITPage,
@@ -117,4 +127,5 @@ module.exports = {
   DeferedArray,
   tryJSONParse,
   checkAuthParseJSON,
+  CharactorAvatarsEnum,
 };

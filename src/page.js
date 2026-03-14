@@ -8,8 +8,16 @@ const {
   AccountNotAvailableError,
   UnexpectedResponseError,
 } = require("./errors.js");
-const { PageDataTable, PageFile, PageImage } = require("./pageComponents.js");
+const {
+  PageDataTable,
+  PageFile,
+  PageImage,
+  PAGEDATATABLE_API_SCHEMA,
+  PAGEFILE_API_SCHEMA,
+  PAGEIMAGE_API_SCHEMA,
+} = require("./pageComponents.js");
 const { API_URL, API_CH5_URL, checkAuthParseJSON } = require("./util.js");
+const z = require("zod");
 
 /**
  * @implements {Loadable<Page>}
@@ -254,8 +262,8 @@ class Page extends PageBase {
       method: "GET",
       mode: "cors",
     });
-    const rawjson = await checkAuthParseJSON(res);
-    this.isLogining = rawjson.login_status === "yes";
+    const rawjsonNoChecked = await checkAuthParseJSON(res);
+    const rawjson = PAGE_API_SCHEMA.parse(rawjsonNoChecked);
     if (rawjson.id !== this.id)
       throw new UnexpectedResponseError(`Unexpect ID: ${rawjson.id}`);
     this.name = rawjson.title;
@@ -279,4 +287,16 @@ class Page extends PageBase {
   }
 }
 
-module.exports = { PageBase, Page };
+const PAGE_API_SCHEMA = z.object({
+  id: z.number(),
+  player_id: z.number(),
+  title: z.string(),
+  preview_url: z.string(),
+  is_read: z.boolean(),
+  data_tables: z.array(PAGEDATATABLE_API_SCHEMA),
+  files: z.array(PAGEFILE_API_SCHEMA),
+  images: z.array(PAGEIMAGE_API_SCHEMA),
+  preset_images: z.array(PAGEIMAGE_API_SCHEMA),
+});
+
+module.exports = { PageBase, Page, PAGE_API_SCHEMA };
