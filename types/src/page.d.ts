@@ -92,7 +92,6 @@ export class Page extends PageBase {
     /**@type {PageImage[]} テンプレートに存在している画像リスト。ユーザー画像は含まれない。*/
     presetImages: PageImage[];
     load(): Promise<this>;
-    isLogining: boolean | undefined;
     save(files?: PageFile[]): Promise<{
         successed: boolean;
         errorAt: {
@@ -103,6 +102,42 @@ export class Page extends PageBase {
         };
     }>;
 }
+export const PAGE_API_SCHEMA: z.ZodObject<{
+    id: z.ZodNumber;
+    player_id: z.ZodNumber;
+    title: z.ZodString;
+    preview_url: z.ZodString;
+    is_read: z.ZodBoolean;
+    data_tables: z.ZodArray<z.ZodObject<{
+        id: z.ZodNumber;
+        label: z.ZodString;
+        value: z.ZodArray<z.ZodAny>;
+        default_header: z.ZodArray<z.ZodString>;
+        header: z.ZodArray<z.ZodString>;
+        value_editable: z.ZodBoolean;
+        min_data_count: z.ZodNumber;
+    }, z.z.core.$strip>>;
+    files: z.ZodArray<z.ZodArray<z.ZodObject<{
+        id: z.ZodNumber;
+        name: z.ZodString;
+        content_type: z.ZodString;
+        content: z.ZodString;
+        preview_url: z.ZodString;
+    }, z.z.core.$strip>>>;
+    images: z.ZodArray<z.ZodObject<{
+        id: z.ZodNumber;
+        name: z.ZodString;
+        url: z.ZodString;
+        thumbnail_url: z.ZodOptional<z.ZodString>;
+    }, z.z.core.$strip>>;
+    preset_images: z.ZodArray<z.ZodObject<{
+        id: z.ZodNumber;
+        name: z.ZodString;
+        url: z.ZodString;
+        thumbnail_url: z.ZodOptional<z.ZodString>;
+    }, z.z.core.$strip>>;
+}, z.z.core.$strip>;
 import { PageFile } from "./pageComponents.js";
 import { PageDataTable } from "./pageComponents.js";
 import { PageImage } from "./pageComponents.js";
+import z = require("zod");

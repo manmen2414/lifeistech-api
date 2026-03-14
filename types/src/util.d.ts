@@ -65,3 +65,12 @@ export function tryJSONParse(str: string): [parseable: boolean, parsed?: any];
  * @param {Response} res
  */
 export function checkAuthParseJSON(res: Response): Promise<any>;
+export const CharactorAvatarsEnum: z.ZodEnum<{
+    hero1_conv: "hero1_conv";
+    hero2_conv: "hero2_conv";
+    hero3_conv: "hero3_conv";
+    heroine1_conv: "heroine1_conv";
+    heroine2_conv: "heroine2_conv";
+    heroine3_conv: "heroine3_conv";
+}>;
+import z = require("zod");

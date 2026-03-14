@@ -114,7 +114,79 @@ export class User extends UserBase {
      */
     load(): Promise<this>;
 }
+export const USER_API_SCHEMA: z.ZodObject<{
+    language: z.ZodString;
+    log_level: z.ZodString;
+    header_user_icon_name: z.ZodString;
+    login_status: z.ZodString;
+    my_page_url: z.ZodString;
+    custom_items: z.ZodArray<z.ZodObject<{
+        url: z.ZodString;
+        text: z.ZodString;
+        style: z.ZodObject<{
+            border: z.ZodString;
+            padding: z.ZodString;
+            borderRadius: z.ZodString;
+        }, z.z.core.$strip>;
+    }, z.z.core.$strip>>;
+    setting_menu_items: z.ZodArray<z.ZodObject<{
+        url: z.ZodString;
+        text: z.ZodString;
+    }, z.z.core.$strip>>;
+    logo_url: z.ZodString;
+    player_name: z.ZodString;
+    nickname: z.ZodString;
+    chatroom_nickname: z.ZodAny;
+    avatarFileName: z.ZodEnum<{
+        hero1_conv: "hero1_conv";
+        hero2_conv: "hero2_conv";
+        hero3_conv: "hero3_conv";
+        heroine1_conv: "heroine1_conv";
+        heroine2_conv: "heroine2_conv";
+        heroine3_conv: "heroine3_conv";
+    }>;
+    headerUserIconName: z.ZodString;
+    header_appearance: z.ZodObject<{
+        show_user_icon: z.ZodBoolean;
+        show_menu: z.ZodBoolean;
+        show_login_status: z.ZodBoolean;
+    }, z.z.core.$strip>;
+    soundConfig: z.ZodObject<{
+        min: z.ZodNumber;
+        max: z.ZodNumber;
+    }, z.z.core.$strip>;
+    soundVolume: z.ZodObject<{
+        bgm: z.ZodNumber;
+        se: z.ZodNumber;
+    }, z.z.core.$strip>;
+    id: z.ZodNumber;
+    schoolId: z.ZodNumber;
+    defaultPassword: z.ZodBoolean;
+    disabledLogin: z.ZodBoolean;
+    demoAccount: z.ZodBoolean;
+    lessonGroups: z.ZodArray<z.ZodObject<{
+        id: z.ZodNumber;
+        name: z.ZodString;
+        created_at: z.ZodString;
+        updated_at: z.ZodString;
+        school_id: z.ZodNumber;
+        year: z.ZodNumber;
+        lesson_pattern_id: z.ZodNumber;
+        grade: z.ZodNumber;
+        lesson_course_id: z.ZodNumber;
+        drill_available: z.ZodBoolean;
+        exam_available: z.ZodBoolean;
+        textbook_id: z.ZodAny;
+    }, z.z.core.$strip>>;
+    currentSchoolKind: z.ZodString;
+    lessonAvailable: z.ZodBoolean;
+    drillAvailable: z.ZodBoolean;
+    examAvailable: z.ZodBoolean;
+    accountAvailable: z.ZodBoolean;
+    ide_url: z.ZodString;
+}, z.z.core.$strip>;
 import { PageBase } from "./page";
 import { Course } from "./course";
 import { LessonGroup } from "./lessongroup";
 import { Classroom } from "./lessongroup";
+import z = require("zod");

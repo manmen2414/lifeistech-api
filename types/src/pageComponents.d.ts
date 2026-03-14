@@ -87,3 +87,26 @@ export class PageDataTable {
      */
     save(value?: Object[]): Promise<void>;
 }
+export const PAGEFILE_API_SCHEMA: z.ZodArray<z.ZodObject<{
+    id: z.ZodNumber;
+    name: z.ZodString;
+    content_type: z.ZodString;
+    content: z.ZodString;
+    preview_url: z.ZodString;
+}, z.z.core.$strip>>;
+export const PAGEIMAGE_API_SCHEMA: z.ZodObject<{
+    id: z.ZodNumber;
+    name: z.ZodString;
+    url: z.ZodString;
+    thumbnail_url: z.ZodOptional<z.ZodString>;
+}, z.z.core.$strip>;
+export const PAGEDATATABLE_API_SCHEMA: z.ZodObject<{
+    id: z.ZodNumber;
+    label: z.ZodString;
+    value: z.ZodArray<z.ZodAny>;
+    default_header: z.ZodArray<z.ZodString>;
+    header: z.ZodArray<z.ZodString>;
+    value_editable: z.ZodBoolean;
+    min_data_count: z.ZodNumber;
+}, z.z.core.$strip>;
+import z = require("zod");
