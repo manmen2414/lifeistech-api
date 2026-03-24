@@ -707,149 +707,179 @@ declare const _exports: {
 	DeferedArray: typeof DeferedArray;
 	tryJSONParse: typeof tryJSONParse;
 	checkAuthParseJSON: typeof checkAuthParseJSON;
-	CharactorAvatarsEnum: import("zod").ZodEnum<{
-		hero1_conv: "hero1_conv";
-		hero2_conv: "hero2_conv";
-		hero3_conv: "hero3_conv";
-		heroine1_conv: "heroine1_conv";
-		heroine2_conv: "heroine2_conv";
-		heroine3_conv: "heroine3_conv";
-	}>;
+	CharactorAvatarsEnum: import("lizod").Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
 	UserBase: typeof UserBase$3;
 	User: typeof User;
-	USER_API_SCHEMA: import("zod").ZodObject<{
-		language: import("zod").ZodString;
-		log_level: import("zod").ZodString;
-		header_user_icon_name: import("zod").ZodString;
-		login_status: import("zod").ZodString;
-		my_page_url: import("zod").ZodString;
-		custom_items: import("zod").ZodArray<import("zod").ZodObject<{
-			url: import("zod").ZodString;
-			text: import("zod").ZodString;
-			style: import("zod").ZodObject<{
-				border: import("zod").ZodString;
-				padding: import("zod").ZodString;
-				borderRadius: import("zod").ZodString;
-			}, import("zod/v4/core").$strip>;
-		}, import("zod/v4/core").$strip>>;
-		setting_menu_items: import("zod").ZodArray<import("zod").ZodObject<{
-			url: import("zod").ZodString;
-			text: import("zod").ZodString;
-		}, import("zod/v4/core").$strip>>;
-		logo_url: import("zod").ZodString;
-		player_name: import("zod").ZodString;
-		nickname: import("zod").ZodString;
-		chatroom_nickname: import("zod").ZodAny;
-		avatarFileName: import("zod").ZodEnum<{
-			hero1_conv: "hero1_conv";
-			hero2_conv: "hero2_conv";
-			hero3_conv: "hero3_conv";
-			heroine1_conv: "heroine1_conv";
-			heroine2_conv: "heroine2_conv";
-			heroine3_conv: "heroine3_conv";
-		}>;
-		headerUserIconName: import("zod").ZodString;
-		header_appearance: import("zod").ZodObject<{
-			show_user_icon: import("zod").ZodBoolean;
-			show_menu: import("zod").ZodBoolean;
-			show_login_status: import("zod").ZodBoolean;
-		}, import("zod/v4/core").$strip>;
-		soundConfig: import("zod").ZodObject<{
-			min: import("zod").ZodNumber;
-			max: import("zod").ZodNumber;
-		}, import("zod/v4/core").$strip>;
-		soundVolume: import("zod").ZodObject<{
-			bgm: import("zod").ZodNumber;
-			se: import("zod").ZodNumber;
-		}, import("zod/v4/core").$strip>;
-		id: import("zod").ZodNumber;
-		schoolId: import("zod").ZodNumber;
-		defaultPassword: import("zod").ZodBoolean;
-		disabledLogin: import("zod").ZodBoolean;
-		demoAccount: import("zod").ZodBoolean;
-		lessonGroups: import("zod").ZodArray<import("zod").ZodObject<{
-			id: import("zod").ZodNumber;
-			name: import("zod").ZodString;
-			created_at: import("zod").ZodString;
-			updated_at: import("zod").ZodString;
-			school_id: import("zod").ZodNumber;
-			year: import("zod").ZodNumber;
-			lesson_pattern_id: import("zod").ZodNumber;
-			grade: import("zod").ZodNumber;
-			lesson_course_id: import("zod").ZodNumber;
-			drill_available: import("zod").ZodBoolean;
-			exam_available: import("zod").ZodBoolean;
-			textbook_id: import("zod").ZodAny;
-		}, import("zod/v4/core").$strip>>;
-		currentSchoolKind: import("zod").ZodString;
-		lessonAvailable: import("zod").ZodBoolean;
-		drillAvailable: import("zod").ZodBoolean;
-		examAvailable: import("zod").ZodBoolean;
-		accountAvailable: import("zod").ZodBoolean;
-		ide_url: import("zod").ZodString;
-	}, import("zod/v4/core").$strip>;
+	USER_API_SCHEMA: (input: any, ctx?: {
+		errors: Array<(string | number | symbol)[]>;
+	}, path?: (string | number | symbol)[]) => input is {
+		[K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "ide_url"]: import("lizod").Infer<{
+			language: import("lizod").Validator<string>;
+			log_level: import("lizod").Validator<string>;
+			header_user_icon_name: import("lizod").Validator<string>;
+			login_status: import("lizod").Validator<string>;
+			my_page_url: import("lizod").Validator<string>;
+			custom_items: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				url: string;
+				text: string;
+				style: {
+					border: string;
+					padding: string;
+					borderRadius: string;
+				};
+			}[];
+			setting_menu_items: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				url: string;
+				text: string;
+			}[];
+			logo_url: import("lizod").Validator<string>;
+			player_name: import("lizod").Validator<string>;
+			nickname: import("lizod").Validator<string>;
+			chatroom_nickname: import("lizod").Validator<string | null>;
+			avatarFileName: import("lizod").Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
+			headerUserIconName: import("lizod").Validator<string>;
+			header_appearance: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				[K in "show_user_icon" | "show_menu" | "show_login_status"]: import("lizod").Infer<{
+					show_user_icon: import("lizod").Validator<boolean>;
+					show_menu: import("lizod").Validator<boolean>;
+					show_login_status: import("lizod").Validator<boolean>;
+				}[K]>;
+			};
+			soundConfig: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				[K in "min" | "max"]: import("lizod").Infer<{
+					min: import("lizod").Validator<number>;
+					max: import("lizod").Validator<number>;
+				}[K]>;
+			};
+			soundVolume: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				[K in "bgm" | "se"]: import("lizod").Infer<{
+					bgm: import("lizod").Validator<number>;
+					se: import("lizod").Validator<number>;
+				}[K]>;
+			};
+			id: import("lizod").Validator<number>;
+			schoolId: import("lizod").Validator<number>;
+			defaultPassword: import("lizod").Validator<boolean>;
+			disabledLogin: import("lizod").Validator<boolean>;
+			demoAccount: import("lizod").Validator<boolean>;
+			lessonGroups: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				id: number;
+				name: string;
+				created_at: string;
+				updated_at: string;
+				school_id: number;
+				year: number;
+				lesson_pattern_id: number;
+				grade: number;
+				lesson_course_id: number;
+				drill_available: boolean;
+				exam_available: boolean;
+				textbook_id: void;
+			}[];
+			currentSchoolKind: import("lizod").Validator<string>;
+			lessonAvailable: import("lizod").Validator<boolean>;
+			drillAvailable: import("lizod").Validator<boolean>;
+			examAvailable: import("lizod").Validator<boolean>;
+			accountAvailable: import("lizod").Validator<boolean>;
+			ide_url: import("lizod").Validator<string>;
+		}[K]>;
+	};
 	PageFile: typeof PageFile;
 	PageImage: typeof PageImage;
 	PageDataTable: typeof PageDataTable;
-	PAGEFILE_API_SCHEMA: import("zod").ZodArray<import("zod").ZodObject<{
-		id: import("zod").ZodNumber;
-		name: import("zod").ZodString;
-		content_type: import("zod").ZodString;
-		content: import("zod").ZodString;
-		preview_url: import("zod").ZodString;
-	}, import("zod/v4/core").$strip>>;
-	PAGEIMAGE_API_SCHEMA: import("zod").ZodObject<{
-		id: import("zod").ZodNumber;
-		name: import("zod").ZodString;
-		url: import("zod").ZodString;
-		thumbnail_url: import("zod").ZodOptional<import("zod").ZodString>;
-	}, import("zod/v4/core").$strip>;
-	PAGEDATATABLE_API_SCHEMA: import("zod").ZodObject<{
-		id: import("zod").ZodNumber;
-		label: import("zod").ZodString;
-		value: import("zod").ZodArray<import("zod").ZodAny>;
-		default_header: import("zod").ZodArray<import("zod").ZodString>;
-		header: import("zod").ZodArray<import("zod").ZodString>;
-		value_editable: import("zod").ZodBoolean;
-		min_data_count: import("zod").ZodNumber;
-	}, import("zod/v4/core").$strip>;
+	PAGEFILE_API_SCHEMA: (input: any, ctx?: {
+		errors: Array<(string | number | symbol)[]>;
+	}, path?: (string | number | symbol)[]) => input is {
+		[K in "id" | "name" | "content_type" | "content" | "preview_url"]: import("lizod").Infer<{
+			id: import("lizod").Validator<number>;
+			name: import("lizod").Validator<string>;
+			content_type: import("lizod").Validator<string>;
+			content: import("lizod").Validator<string>;
+			preview_url: import("lizod").Validator<string>;
+		}[K]>;
+	};
+	PAGEIMAGE_API_SCHEMA: (input: any, ctx?: {
+		errors: Array<(string | number | symbol)[]>;
+	}, path?: (string | number | symbol)[]) => input is {
+		[K in "id" | "name" | "url" | "thumbnail_url"]: import("lizod").Infer<{
+			id: import("lizod").Validator<number>;
+			name: import("lizod").Validator<string>;
+			url: import("lizod").Validator<string>;
+			thumbnail_url: import("lizod").Validator<string | null>;
+		}[K]>;
+	};
+	PAGEDATATABLE_API_SCHEMA: (input: any, ctx?: {
+		errors: Array<(string | number | symbol)[]>;
+	}, path?: (string | number | symbol)[]) => input is {
+		id: number;
+		label: string;
+		value: void[];
+		default_header: string[];
+		header: string[];
+		value_editable: boolean;
+		min_data_count: number;
+	};
 	PageBase: typeof PageBase;
 	Page: typeof Page$1;
-	PAGE_API_SCHEMA: import("zod").ZodObject<{
-		id: import("zod").ZodNumber;
-		player_id: import("zod").ZodNumber;
-		title: import("zod").ZodString;
-		preview_url: import("zod").ZodString;
-		is_read: import("zod").ZodBoolean;
-		data_tables: import("zod").ZodArray<import("zod").ZodObject<{
-			id: import("zod").ZodNumber;
-			label: import("zod").ZodString;
-			value: import("zod").ZodArray<import("zod").ZodAny>;
-			default_header: import("zod").ZodArray<import("zod").ZodString>;
-			header: import("zod").ZodArray<import("zod").ZodString>;
-			value_editable: import("zod").ZodBoolean;
-			min_data_count: import("zod").ZodNumber;
-		}, import("zod/v4/core").$strip>>;
-		files: import("zod").ZodArray<import("zod").ZodArray<import("zod").ZodObject<{
-			id: import("zod").ZodNumber;
-			name: import("zod").ZodString;
-			content_type: import("zod").ZodString;
-			content: import("zod").ZodString;
-			preview_url: import("zod").ZodString;
-		}, import("zod/v4/core").$strip>>>;
-		images: import("zod").ZodArray<import("zod").ZodObject<{
-			id: import("zod").ZodNumber;
-			name: import("zod").ZodString;
-			url: import("zod").ZodString;
-			thumbnail_url: import("zod").ZodOptional<import("zod").ZodString>;
-		}, import("zod/v4/core").$strip>>;
-		preset_images: import("zod").ZodArray<import("zod").ZodObject<{
-			id: import("zod").ZodNumber;
-			name: import("zod").ZodString;
-			url: import("zod").ZodString;
-			thumbnail_url: import("zod").ZodOptional<import("zod").ZodString>;
-		}, import("zod/v4/core").$strip>>;
-	}, import("zod/v4/core").$strip>;
+	PAGE_API_SCHEMA: (input: any, ctx?: {
+		errors: Array<(string | number | symbol)[]>;
+	}, path?: (string | number | symbol)[]) => input is {
+		[K in "id" | "preview_url" | "player_id" | "title" | "is_read" | "data_tables" | "files" | "images" | "preset_images"]: import("lizod").Infer<{
+			id: import("lizod").Validator<number>;
+			player_id: import("lizod").Validator<number>;
+			title: import("lizod").Validator<string>;
+			preview_url: import("lizod").Validator<string>;
+			is_read: import("lizod").Validator<boolean>;
+			data_tables: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				id: number;
+				label: string;
+				value: void[];
+				default_header: string[];
+				header: string[];
+				value_editable: boolean;
+				min_data_count: number;
+			}[];
+			files: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				id: number;
+				name: string;
+				content_type: string;
+				content: string;
+				preview_url: string;
+			}[];
+			images: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				id: number;
+				name: string;
+				url: string;
+				thumbnail_url: string | null;
+			}[];
+			preset_images: (input: any, ctx?: {
+				errors: Array<(string | number | symbol)[]>;
+			}, path?: (string | number | symbol)[]) => input is {
+				id: number;
+				name: string;
+				url: string;
+				thumbnail_url: string | null;
+			}[];
+		}[K]>;
+	};
 	Material: typeof Material;
 	LessonGroup: typeof LessonGroup;
 	Classroom: typeof Classroom;

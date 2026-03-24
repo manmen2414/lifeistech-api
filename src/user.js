@@ -18,7 +18,7 @@ const {
   checkAuthParseJSON,
   CharactorAvatarsEnum,
 } = require("./util");
-const z = require("zod");
+const z = require("lizod");
 
 /**
  * @implements {Loadable<User>}
@@ -269,8 +269,11 @@ class User extends UserBase {
       method: "GET",
       mode: "cors",
     });
-    const rawjsonNoChecked = await res.json();
-    const rawjson = USER_API_SCHEMA.parse(rawjsonNoChecked);
+    const rawjson = await res.json();
+    if (!USER_API_SCHEMA(rawjson))
+      throw new UnexpectedResponseError(
+        `Unexpected User API Response:\n${JSON.stringify(rawjson, null, 2)}`,
+      );
     this.isLogining = rawjson.login_status === "yes";
     if (res.status === 401 || !this.isLogining)
       throw new AccountNotAvailableError("Token is invaild");
@@ -294,66 +297,64 @@ class User extends UserBase {
   }
 }
 
-const USER_API_SCHEMA = z.object({
-  language: z.string().nonempty(),
-  log_level: z.string(),
-  header_user_icon_name: z.string(),
-  login_status: z.string(),
-  my_page_url: z.string(),
-  custom_items: z.array(
-    z.object({
-      url: z.string(),
-      text: z.string(),
-      style: z.object({
-        border: z.string(),
-        padding: z.string(),
-        borderRadius: z.string(),
+const USER_API_SCHEMA = z.$object({
+  language: z.$string,
+  log_level: z.$string,
+  header_user_icon_name: z.$string,
+  login_status: z.$string,
+  my_page_url: z.$string,
+  custom_items: z.$array(
+    z.$object({
+      url: z.$string,
+      text: z.$string,
+      style: z.$object({
+        border: z.$string,
+        padding: z.$string,
+        borderRadius: z.$string,
       }),
     }),
   ),
-  setting_menu_items: z.array(z.object({ url: z.string(), text: z.string() })),
-  logo_url: z.string(),
-  player_name: z.string().nonempty(),
-  nickname: z.string(),
-  chatroom_nickname: z.any(),
+  setting_menu_items: z.$array(z.$object({ url: z.$string, text: z.$string })),
+  logo_url: z.$string,
+  player_name: z.$string,
+  nickname: z.$string,
+  chatroom_nickname: z.$nullable(z.$string),
   avatarFileName: CharactorAvatarsEnum,
-  headerUserIconName: z.string(),
-  header_appearance: z.object({
-    show_user_icon: z.boolean(),
-    show_menu: z.boolean(),
-    show_login_status: z.boolean(),
+  headerUserIconName: z.$string,
+  header_appearance: z.$object({
+    show_user_icon: z.$boolean,
+    show_menu: z.$boolean,
+    show_login_status: z.$boolean,
   }),
-  soundConfig: z.object({ min: z.number(), max: z.number() }),
-  soundVolume: z.object({ bgm: z.number(), se: z.number() }),
-  id: z.number(),
-  schoolId: z.number(),
-  defaultPassword: z.boolean(),
-  disabledLogin: z.boolean(),
-  demoAccount: z.boolean(),
-  lessonGroups: z
-    .array(
-      z.object({
-        id: z.number(),
-        name: z.string(),
-        created_at: z.string(),
-        updated_at: z.string(),
-        school_id: z.number(),
-        year: z.number(),
-        lesson_pattern_id: z.number(),
-        grade: z.number(),
-        lesson_course_id: z.number(),
-        drill_available: z.boolean(),
-        exam_available: z.boolean(),
-        textbook_id: z.any(),
-      }),
-    )
-    .nonempty(),
-  currentSchoolKind: z.string(),
-  lessonAvailable: z.boolean(),
-  drillAvailable: z.boolean(),
-  examAvailable: z.boolean(),
-  accountAvailable: z.boolean(),
-  ide_url: z.string(),
+  soundConfig: z.$object({ min: z.$number, max: z.$number }),
+  soundVolume: z.$object({ bgm: z.$number, se: z.$number }),
+  id: z.$number,
+  schoolId: z.$number,
+  defaultPassword: z.$boolean,
+  disabledLogin: z.$boolean,
+  demoAccount: z.$boolean,
+  lessonGroups: z.$array(
+    z.$object({
+      id: z.$number,
+      name: z.$string,
+      created_at: z.$string,
+      updated_at: z.$string,
+      school_id: z.$number,
+      year: z.$number,
+      lesson_pattern_id: z.$number,
+      grade: z.$number,
+      lesson_course_id: z.$number,
+      drill_available: z.$boolean,
+      exam_available: z.$boolean,
+      textbook_id: z.$any,
+    }),
+  ),
+  currentSchoolKind: z.$string,
+  lessonAvailable: z.$boolean,
+  drillAvailable: z.$boolean,
+  examAvailable: z.$boolean,
+  accountAvailable: z.$boolean,
+  ide_url: z.$string,
 });
 
 module.exports = {

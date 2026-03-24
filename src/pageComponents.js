@@ -1,7 +1,7 @@
 /**@typedef {import("./page").Page} Page*/
 /**@typedef {import("./types/page").FileMinetypes} FileMinetypes*/
 const { API_CH5_URL, checkAuthParseJSON } = require("./util");
-const z = require("zod");
+const z = require("lizod");
 
 class PageFile {
   /**
@@ -137,31 +137,29 @@ class PageDataTable {
   }
 }
 
-const PAGEFILE_API_SCHEMA = z.array(
-  z.object({
-    id: z.number(),
-    name: z.string(),
-    content_type: z.string(),
-    content: z.string(),
-    preview_url: z.string(),
-  }),
-);
-
-const PAGEIMAGE_API_SCHEMA = z.object({
-  id: z.number(),
-  name: z.string(),
-  url: z.string(),
-  thumbnail_url: z.string().optional(),
+const PAGEFILE_API_SCHEMA = z.$object({
+  id: z.$number,
+  name: z.$string,
+  content_type: z.$string,
+  content: z.$string,
+  preview_url: z.$string,
 });
 
-const PAGEDATATABLE_API_SCHEMA = z.object({
-  id: z.number(),
-  label: z.string(),
-  value: z.array(z.any()),
-  default_header: z.array(z.string()),
-  header: z.array(z.string()),
-  value_editable: z.boolean(),
-  min_data_count: z.number(),
+const PAGEIMAGE_API_SCHEMA = z.$object({
+  id: z.$number,
+  name: z.$string,
+  url: z.$string,
+  thumbnail_url: z.$any,
+});
+
+const PAGEDATATABLE_API_SCHEMA = z.$object({
+  id: z.$number,
+  label: z.$string,
+  value: z.$array(z.$any),
+  default_header: z.$array(z.$string),
+  header: z.$array(z.$string),
+  value_editable: z.$boolean,
+  min_data_count: z.$number,
 });
 
 module.exports = {

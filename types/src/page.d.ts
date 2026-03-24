@@ -102,42 +102,52 @@ export class Page extends PageBase {
         };
     }>;
 }
-export const PAGE_API_SCHEMA: z.ZodObject<{
-    id: z.ZodNumber;
-    player_id: z.ZodNumber;
-    title: z.ZodString;
-    preview_url: z.ZodString;
-    is_read: z.ZodBoolean;
-    data_tables: z.ZodArray<z.ZodObject<{
-        id: z.ZodNumber;
-        label: z.ZodString;
-        value: z.ZodArray<z.ZodAny>;
-        default_header: z.ZodArray<z.ZodString>;
-        header: z.ZodArray<z.ZodString>;
-        value_editable: z.ZodBoolean;
-        min_data_count: z.ZodNumber;
-    }, z.z.core.$strip>>;
-    files: z.ZodArray<z.ZodArray<z.ZodObject<{
-        id: z.ZodNumber;
-        name: z.ZodString;
-        content_type: z.ZodString;
-        content: z.ZodString;
-        preview_url: z.ZodString;
-    }, z.z.core.$strip>>>;
-    images: z.ZodArray<z.ZodObject<{
-        id: z.ZodNumber;
-        name: z.ZodString;
-        url: z.ZodString;
-        thumbnail_url: z.ZodOptional<z.ZodString>;
-    }, z.z.core.$strip>>;
-    preset_images: z.ZodArray<z.ZodObject<{
-        id: z.ZodNumber;
-        name: z.ZodString;
-        url: z.ZodString;
-        thumbnail_url: z.ZodOptional<z.ZodString>;
-    }, z.z.core.$strip>>;
-}, z.z.core.$strip>;
+export const PAGE_API_SCHEMA: (input: any, ctx?: {
+    errors: Array<(string | number | symbol)[]>;
+}, path?: (string | number | symbol)[]) => input is { [K in "id" | "preview_url" | "player_id" | "title" | "is_read" | "data_tables" | "files" | "images" | "preset_images"]: z.Infer<{
+    id: z.Validator<number>;
+    player_id: z.Validator<number>;
+    title: z.Validator<string>;
+    preview_url: z.Validator<string>;
+    is_read: z.Validator<boolean>;
+    data_tables: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        id: number;
+        label: string;
+        value: void[];
+        default_header: string[];
+        header: string[];
+        value_editable: boolean;
+        min_data_count: number;
+    }[];
+    files: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        id: number;
+        name: string;
+        content_type: string;
+        content: string;
+        preview_url: string;
+    }[];
+    images: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        id: number;
+        name: string;
+        url: string;
+        thumbnail_url: string | null;
+    }[];
+    preset_images: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        id: number;
+        name: string;
+        url: string;
+        thumbnail_url: string | null;
+    }[];
+}[K]>; };
 import { PageFile } from "./pageComponents.js";
 import { PageDataTable } from "./pageComponents.js";
 import { PageImage } from "./pageComponents.js";
-import z = require("zod");
+import z = require("lizod");

@@ -87,26 +87,32 @@ export class PageDataTable {
      */
     save(value?: Object[]): Promise<void>;
 }
-export const PAGEFILE_API_SCHEMA: z.ZodArray<z.ZodObject<{
-    id: z.ZodNumber;
-    name: z.ZodString;
-    content_type: z.ZodString;
-    content: z.ZodString;
-    preview_url: z.ZodString;
-}, z.z.core.$strip>>;
-export const PAGEIMAGE_API_SCHEMA: z.ZodObject<{
-    id: z.ZodNumber;
-    name: z.ZodString;
-    url: z.ZodString;
-    thumbnail_url: z.ZodOptional<z.ZodString>;
-}, z.z.core.$strip>;
-export const PAGEDATATABLE_API_SCHEMA: z.ZodObject<{
-    id: z.ZodNumber;
-    label: z.ZodString;
-    value: z.ZodArray<z.ZodAny>;
-    default_header: z.ZodArray<z.ZodString>;
-    header: z.ZodArray<z.ZodString>;
-    value_editable: z.ZodBoolean;
-    min_data_count: z.ZodNumber;
-}, z.z.core.$strip>;
-import z = require("zod");
+export const PAGEFILE_API_SCHEMA: (input: any, ctx?: {
+    errors: Array<(string | number | symbol)[]>;
+}, path?: (string | number | symbol)[]) => input is { [K in "id" | "name" | "content_type" | "content" | "preview_url"]: z.Infer<{
+    id: z.Validator<number>;
+    name: z.Validator<string>;
+    content_type: z.Validator<string>;
+    content: z.Validator<string>;
+    preview_url: z.Validator<string>;
+}[K]>; };
+export const PAGEIMAGE_API_SCHEMA: (input: any, ctx?: {
+    errors: Array<(string | number | symbol)[]>;
+}, path?: (string | number | symbol)[]) => input is { [K in "id" | "name" | "url" | "thumbnail_url"]: z.Infer<{
+    id: z.Validator<number>;
+    name: z.Validator<string>;
+    url: z.Validator<string>;
+    thumbnail_url: z.Validator<string | null>;
+}[K]>; };
+export const PAGEDATATABLE_API_SCHEMA: (input: any, ctx?: {
+    errors: Array<(string | number | symbol)[]>;
+}, path?: (string | number | symbol)[]) => input is {
+    id: number;
+    label: string;
+    value: void[];
+    default_header: string[];
+    header: string[];
+    value_editable: boolean;
+    min_data_count: number;
+};
+import z = require("lizod");

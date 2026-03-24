@@ -114,79 +114,86 @@ export class User extends UserBase {
      */
     load(): Promise<this>;
 }
-export const USER_API_SCHEMA: z.ZodObject<{
-    language: z.ZodString;
-    log_level: z.ZodString;
-    header_user_icon_name: z.ZodString;
-    login_status: z.ZodString;
-    my_page_url: z.ZodString;
-    custom_items: z.ZodArray<z.ZodObject<{
-        url: z.ZodString;
-        text: z.ZodString;
-        style: z.ZodObject<{
-            border: z.ZodString;
-            padding: z.ZodString;
-            borderRadius: z.ZodString;
-        }, z.z.core.$strip>;
-    }, z.z.core.$strip>>;
-    setting_menu_items: z.ZodArray<z.ZodObject<{
-        url: z.ZodString;
-        text: z.ZodString;
-    }, z.z.core.$strip>>;
-    logo_url: z.ZodString;
-    player_name: z.ZodString;
-    nickname: z.ZodString;
-    chatroom_nickname: z.ZodAny;
-    avatarFileName: z.ZodEnum<{
-        hero1_conv: "hero1_conv";
-        hero2_conv: "hero2_conv";
-        hero3_conv: "hero3_conv";
-        heroine1_conv: "heroine1_conv";
-        heroine2_conv: "heroine2_conv";
-        heroine3_conv: "heroine3_conv";
-    }>;
-    headerUserIconName: z.ZodString;
-    header_appearance: z.ZodObject<{
-        show_user_icon: z.ZodBoolean;
-        show_menu: z.ZodBoolean;
-        show_login_status: z.ZodBoolean;
-    }, z.z.core.$strip>;
-    soundConfig: z.ZodObject<{
-        min: z.ZodNumber;
-        max: z.ZodNumber;
-    }, z.z.core.$strip>;
-    soundVolume: z.ZodObject<{
-        bgm: z.ZodNumber;
-        se: z.ZodNumber;
-    }, z.z.core.$strip>;
-    id: z.ZodNumber;
-    schoolId: z.ZodNumber;
-    defaultPassword: z.ZodBoolean;
-    disabledLogin: z.ZodBoolean;
-    demoAccount: z.ZodBoolean;
-    lessonGroups: z.ZodArray<z.ZodObject<{
-        id: z.ZodNumber;
-        name: z.ZodString;
-        created_at: z.ZodString;
-        updated_at: z.ZodString;
-        school_id: z.ZodNumber;
-        year: z.ZodNumber;
-        lesson_pattern_id: z.ZodNumber;
-        grade: z.ZodNumber;
-        lesson_course_id: z.ZodNumber;
-        drill_available: z.ZodBoolean;
-        exam_available: z.ZodBoolean;
-        textbook_id: z.ZodAny;
-    }, z.z.core.$strip>>;
-    currentSchoolKind: z.ZodString;
-    lessonAvailable: z.ZodBoolean;
-    drillAvailable: z.ZodBoolean;
-    examAvailable: z.ZodBoolean;
-    accountAvailable: z.ZodBoolean;
-    ide_url: z.ZodString;
-}, z.z.core.$strip>;
+export const USER_API_SCHEMA: (input: any, ctx?: {
+    errors: Array<(string | number | symbol)[]>;
+}, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "ide_url"]: z.Infer<{
+    language: z.Validator<string>;
+    log_level: z.Validator<string>;
+    header_user_icon_name: z.Validator<string>;
+    login_status: z.Validator<string>;
+    my_page_url: z.Validator<string>;
+    custom_items: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        url: string;
+        text: string;
+        style: {
+            border: string;
+            padding: string;
+            borderRadius: string;
+        };
+    }[];
+    setting_menu_items: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        url: string;
+        text: string;
+    }[];
+    logo_url: z.Validator<string>;
+    player_name: z.Validator<string>;
+    nickname: z.Validator<string>;
+    chatroom_nickname: z.Validator<string | null>;
+    avatarFileName: z.Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
+    headerUserIconName: z.Validator<string>;
+    header_appearance: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is { [K in "show_user_icon" | "show_menu" | "show_login_status"]: z.Infer<{
+        show_user_icon: z.Validator<boolean>;
+        show_menu: z.Validator<boolean>;
+        show_login_status: z.Validator<boolean>;
+    }[K]>; };
+    soundConfig: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is { [K in "min" | "max"]: z.Infer<{
+        min: z.Validator<number>;
+        max: z.Validator<number>;
+    }[K]>; };
+    soundVolume: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is { [K in "bgm" | "se"]: z.Infer<{
+        bgm: z.Validator<number>;
+        se: z.Validator<number>;
+    }[K]>; };
+    id: z.Validator<number>;
+    schoolId: z.Validator<number>;
+    defaultPassword: z.Validator<boolean>;
+    disabledLogin: z.Validator<boolean>;
+    demoAccount: z.Validator<boolean>;
+    lessonGroups: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is {
+        id: number;
+        name: string;
+        created_at: string;
+        updated_at: string;
+        school_id: number;
+        year: number;
+        lesson_pattern_id: number;
+        grade: number;
+        lesson_course_id: number;
+        drill_available: boolean;
+        exam_available: boolean;
+        textbook_id: void;
+    }[];
+    currentSchoolKind: z.Validator<string>;
+    lessonAvailable: z.Validator<boolean>;
+    drillAvailable: z.Validator<boolean>;
+    examAvailable: z.Validator<boolean>;
+    accountAvailable: z.Validator<boolean>;
+    ide_url: z.Validator<string>;
+}[K]>; };
 import { PageBase } from "./page";
 import { Course } from "./course";
 import { LessonGroup } from "./lessongroup";
 import { Classroom } from "./lessongroup";
-import z = require("zod");
+import z = require("lizod");
