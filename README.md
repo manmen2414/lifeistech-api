@@ -124,6 +124,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 ```
 </details>
 
+## Scripts
+- `npm run build` でJavaScriptを公開用にビルドする (`dist/lit-api.js`)
+- `npm run developBuild` でJavaScriptをデバッグ用にビルドする (`dist/lit-api.js`)
+  - Webpack Bundle Analyzerが作動する。
+- (**Windows Only**) `build:types-win` で型宣言ファイルをバンドルする (`dist/lit-api.d.ts`)
+- (**Mac/Linux Only**) `build:types` で型宣言ファイルをバンドルする (`dist/lit-api.d.ts`)
+- (**Windows Only**) `build:all-win` でJavaScriptと型宣言ファイルをバンドルする
+- (**Mac/Linux Only**) `build:types` でJavaScriptと型宣言ファイルをバンドルする
+
 ## Precautions
 ### 対応している教材について
 ほとんどが中学生の「双方向・JSコース」にのみ対応している機能です。  
