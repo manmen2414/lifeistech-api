@@ -94,8 +94,8 @@ class Lesson extends LessonBase {
     this.hasChatContents = false;
     /**@type {import("./types/lesson").LessonStartLink[]} レッスンの開始リンク。*/
     this.startLinks = [];
-    /**@type {any} レッスンの再開リンク？*/
-    this.continueLink = {};
+    /**@type {import("./types/lesson").LessonStartLink?} レッスンの再開リンク。*/
+    this.continueLink = null;
     /**@type {Material[]} レッスンの「補助教材」リスト。*/
     this.materials = [];
     /**@type {Material[]} レッスンの「ワークシート」リスト。*/
@@ -134,12 +134,17 @@ class Lesson extends LessonBase {
         playerUrl: j.player_url,
       }),
     );
-    this.continueLink = rawjson.continue_link;
+    if (Object.keys(rawjson.continue_link).length !== 0)
+      this.continueLink = {
+        scenarioId: rawjson.continue_link.scenario_id,
+        type: rawjson.continue_link.type,
+        playerUrl: rawjson.continue_link.player_url,
+      };
     this.materials = rawjson.materials.map(
-      /**@param {any} j*/ (j) => new Material(/*j, this, false*/),
+      /**@param {any} j*/ (j) => new Material(j, false, this),
     );
     this.worksheetMaterials = rawjson.worksheet_materials.map(
-      /**@param {any} j*/ (j) => new Material(/*j, this, true*/),
+      /**@param {any} j*/ (j) => new Material(j, true, this),
     );
     this.htmlWork = rawjson.html_work;
     this.cloud9Link = rawjson.cloud9_link ?? null;
