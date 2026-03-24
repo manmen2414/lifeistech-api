@@ -61,6 +61,11 @@ export class UserBase implements Loadable<User> {
      * @returns {Promise<string|false>} リンク、またはCloud9のリンクが存在しない場合false
      */
     getCloud9Link(): Promise<string | false>;
+    /**
+     * ユーザーのオリジナル計測制御システムにアクセスするリンクを取得する。
+     * @returns {Promise<MeasureControlSystemBase|false>} システムオブジェクト、またはまだ作成されていない場合false
+     */
+    getOriginalMeasureControlSystem(): Promise<MeasureControlSystemBase | false>;
 }
 /**
  * ユーザーの情報を保持するクラス。
@@ -216,6 +221,7 @@ export const USER_API_SCHEMA: (input: any, ctx?: {
 }[K]>; };
 import { PageBase } from "./page";
 import { Course } from "./course";
+import { MeasureControlSystemBase } from "./MeasureControl/MeasureControlSystem.js";
 import { LessonGroup } from "./lessongroup";
 import { Classroom } from "./lessongroup";
 import z = require("lizod");
