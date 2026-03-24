@@ -106,7 +106,7 @@ declare const _exports: {
         id: import("lizod").Validator<number>;
         name: import("lizod").Validator<string>;
         url: import("lizod").Validator<string>;
-        thumbnail_url: import("lizod").Validator<string | null>;
+        thumbnail_url: import("lizod").Validator<void>;
     }[K]>; };
     PAGEDATATABLE_API_SCHEMA: (input: any, ctx?: {
         errors: Array<(string | number | symbol)[]>;
@@ -155,7 +155,7 @@ declare const _exports: {
             id: number;
             name: string;
             url: string;
-            thumbnail_url: string | null;
+            thumbnail_url: void;
         }[];
         preset_images: (input: any, ctx?: {
             errors: Array<(string | number | symbol)[]>;
@@ -163,7 +163,7 @@ declare const _exports: {
             id: number;
             name: string;
             url: string;
-            thumbnail_url: string | null;
+            thumbnail_url: void;
         }[];
     }[K]>; };
     Material: typeof import("./material").Material;
