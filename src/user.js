@@ -250,6 +250,19 @@ class User extends UserBase {
     this.accountAvailable = false;
     /**@type {LessonGroup[]} ユーザーの所属するレッスングループのリスト。*/
     this.lessonGroups = [];
+    /**@type {boolean} アカウントが仮アカウントであるか？*/
+    this.isProvisional = false;
+    /**@type {boolean} 学校のクラスコードを所持しているか？*/
+    this.hasClassCodesInSchool = false;
+    /**@type {boolean} クラスに参加している必要があるか？*/
+    this.needsJoinClass = false;
+    /**@type {{processingYear:number,shouldShow:boolean}} クラス替えを行う際のバナー表示に関連する設定？ */
+    this.classChangeBanner = {
+      processingYear: NaN,
+      shouldShow: false,
+    };
+    /**@type {string?} Cloud9のリンク。*/
+    this.ideUrl = "";
 
     /**
      * @deprecated lessonGroupを代理で利用する。
@@ -292,6 +305,11 @@ class User extends UserBase {
     this.drillAvailable = rawjson.drillAvailable;
     this.examAvailable = rawjson.examAvailable;
     this.accountAvailable = rawjson.accountAvailable;
+    this.isProvisional = rawjson.isProvisional;
+    this.hasClassCodesInSchool = rawjson.hasClassCodesInSchool;
+    this.needsJoinClass = rawjson.needsJoinClass;
+    this.classChangeBanner = rawjson.classChangeBanner;
+    this.ideUrl = rawjson.ide_url;
     this.lessonGroups = rawjson.lessonGroups.map(
       /**@param {any} j  */
       (j) => new LessonGroup(j, this),
@@ -357,7 +375,14 @@ const USER_API_SCHEMA = z.$object({
   drillAvailable: z.$boolean,
   examAvailable: z.$boolean,
   accountAvailable: z.$boolean,
-  ide_url: z.$string,
+  isProvisional: z.$boolean,
+  hasClassCodesInSchool: z.$boolean,
+  needsJoinClass: z.$boolean,
+  classChangeBanner: z.$object({
+    processingYear: z.$number,
+    shouldShow: z.$boolean,
+  }),
+  ide_url: z.$nullable(z.$string),
 });
 
 module.exports = {
