@@ -12,4 +12,5 @@ module.exports = {
   ...require("./pageComponents"),
   ...require("./user"),
   ...require("./util"),
+  MeasureControl: require("./MeasureControl"),
 };

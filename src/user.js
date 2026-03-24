@@ -20,6 +20,9 @@ const {
   reportLizodError,
 } = require("./util");
 const z = require("lizod");
+const {
+  MeasureControlSystemBase,
+} = require("./MeasureControl/MeasureControlSystem.js");
 
 /**
  * @implements {Loadable<User>}
@@ -199,6 +202,26 @@ class UserBase {
     const { cloud9_link } = await res.json();
     if (!cloud9_link) return false;
     return cloud9_link;
+  }
+  /**
+   * ユーザーのオリジナル計測制御システムにアクセスするリンクを取得する。
+   * @returns {Promise<MeasureControlSystemBase|false>} システムオブジェクト、またはまだ作成されていない場合false
+   */
+  async getOriginalMeasureControlSystem() {
+    const res = await fetch(
+      `${API_URL}/measure_control_original_works/latest`,
+      {
+        headers: {
+          authorization: `Bearer ${this.token}`,
+          "content-type": "application/json",
+        },
+        method: "GET",
+        mode: "cors",
+      },
+    );
+    const { id } = await res.json();
+    if (!id) return false;
+    return new MeasureControlSystemBase(id, this);
   }
 }
 
