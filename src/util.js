@@ -118,10 +118,29 @@ const CharactorAvatarsEnum = z.$enum([
   "heroine3_conv",
 ]);
 
+/**
+ * @param {object} obj
+ * @param {import("./types/util").lizodValidatorContext} ctx
+ */
+const reportLizodError = (obj, ctx) => {
+  console.log("[Response Check] object: ", obj);
+  if (ctx.errors.length === 0) {
+    console.log("[Response Check] The object has not enough properties.");
+  } else {
+    ctx.errors.forEach((error) => {
+      console.log(
+        `[Response Check] object.${error.join(".")} is wrong type: `,
+        z.access(obj, error),
+      );
+    });
+  }
+};
+
 module.exports = {
   getCharactorsImage,
   checkIsLITPage,
   checkCookieToken,
+  reportLizodError,
   API_URL,
   API_CH5_URL,
   DeferedArray,

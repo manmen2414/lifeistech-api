@@ -17,6 +17,7 @@ const {
   API_CH5_URL,
   checkAuthParseJSON,
   CharactorAvatarsEnum,
+  reportLizodError,
 } = require("./util");
 const z = require("lizod");
 
@@ -231,7 +232,7 @@ class User extends UserBase {
     this.backendName = "";
     /**@type {string?} ユーザーのチャット上の名前？*/
     this.chatroomNickname = null;
-    /**@type {CharactorAvatars} ユーザーの設定しているキャラクターの名前。*/
+    /**@type {string} ユーザーの設定しているキャラクターの名前。*/
     this.avatarFileName = "hero1_conv";
     /**@type {number} ユーザーのID。*/
     this.playerId = NaN;
@@ -270,10 +271,12 @@ class User extends UserBase {
       mode: "cors",
     });
     const rawjson = await res.json();
-    if (!USER_API_SCHEMA(rawjson))
-      throw new UnexpectedResponseError(
-        `Unexpected User API Response:\n${JSON.stringify(rawjson, null, 2)}`,
-      );
+    /**@type {import("./types/util.d.ts").lizodValidatorContext} */
+    const ctx = { errors: [] };
+    if (!USER_API_SCHEMA(rawjson, ctx)) {
+      reportLizodError(rawjson, ctx);
+      throw new UnexpectedResponseError(`Unexpected User API Response.`);
+    }
     this.isLogining = rawjson.login_status === "yes";
     if (res.status === 401 || !this.isLogining)
       throw new AccountNotAvailableError("Token is invaild");
@@ -319,7 +322,7 @@ const USER_API_SCHEMA = z.$object({
   player_name: z.$string,
   nickname: z.$string,
   chatroom_nickname: z.$nullable(z.$string),
-  avatarFileName: CharactorAvatarsEnum,
+  avatarFileName: z.$string,
   headerUserIconName: z.$string,
   header_appearance: z.$object({
     show_user_icon: z.$boolean,

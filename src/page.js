@@ -16,7 +16,12 @@ const {
   PAGEFILE_API_SCHEMA,
   PAGEIMAGE_API_SCHEMA,
 } = require("./pageComponents.js");
-const { API_URL, API_CH5_URL, checkAuthParseJSON } = require("./util.js");
+const {
+  API_URL,
+  API_CH5_URL,
+  checkAuthParseJSON,
+  reportLizodError,
+} = require("./util.js");
 const z = require("lizod");
 
 /**
@@ -263,12 +268,14 @@ class Page extends PageBase {
       mode: "cors",
     });
     const rawjson = await checkAuthParseJSON(res);
-    if (!PAGE_API_SCHEMA(rawjson))
-      throw new UnexpectedResponseError(
-        `Unexpected Page API Response:\n${JSON.stringify(rawjson, null, 2)}`,
-      );
+    /**@type {import("./types/util.d.ts").lizodValidatorContext} */
+    const ctx = { errors: [] };
+    if (!PAGE_API_SCHEMA(rawjson, ctx)) {
+      reportLizodError(rawjson, ctx);
+      throw new UnexpectedResponseError(`Unexpected Page API Response.`);
+    }
     if (rawjson.id !== this.id)
-      throw new UnexpectedResponseError(`Unexpect ID: ${rawjson.id}`);
+      throw new UnexpectedResponseError(`Unexpect Page ID: ${rawjson.id}`);
     this.name = rawjson.title;
     this.previewUrl = rawjson.preview_url;
     this.dataTables = rawjson.data_tables.map(
