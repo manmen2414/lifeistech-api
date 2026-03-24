@@ -1,8 +1,9 @@
 const path = require("path");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   mode: "production",
-  // mode: "development",
   entry: "./src/index.js", // 入力ファイル
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -13,4 +14,5 @@ module.exports = {
     },
     globalObject: "this", // Node.jsとブラウザ両対応のため
   },
+  plugins: [process.argv.includes("--analyze") && new BundleAnalyzerPlugin({})],
 };
