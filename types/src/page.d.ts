@@ -104,7 +104,7 @@ export class Page extends PageBase {
 }
 export const PAGE_API_SCHEMA: (input: any, ctx?: {
     errors: Array<(string | number | symbol)[]>;
-}, path?: (string | number | symbol)[]) => input is { [K in "id" | "preview_url" | "player_id" | "title" | "is_read" | "data_tables" | "files" | "images" | "preset_images"]: z.Infer<{
+}, path?: (string | number | symbol)[]) => input is { [K in "title" | "id" | "preview_url" | "player_id" | "is_read" | "data_tables" | "files" | "images" | "preset_images"]: z.Infer<{
     id: z.Validator<number>;
     player_id: z.Validator<number>;
     title: z.Validator<string>;

@@ -86,8 +86,8 @@ export class User extends UserBase {
     backendName: string;
     /**@type {string?} ユーザーのチャット上の名前？*/
     chatroomNickname: string | null;
-    /**@type {CharactorAvatars} ユーザーの設定しているキャラクターの名前。*/
-    avatarFileName: CharactorAvatars;
+    /**@type {string} ユーザーの設定しているキャラクターの名前。*/
+    avatarFileName: string;
     /**@type {number} ユーザーのID。*/
     playerId: number;
     /**@type {boolean} デモアカウントかどうか。*/
@@ -104,6 +104,19 @@ export class User extends UserBase {
     accountAvailable: boolean;
     /**@type {LessonGroup[]} ユーザーの所属するレッスングループのリスト。*/
     lessonGroups: LessonGroup[];
+    /**@type {boolean} アカウントが仮アカウントであるか？*/
+    isProvisional: boolean;
+    /**@type {boolean} 学校のクラスコードを所持しているか？*/
+    hasClassCodesInSchool: boolean;
+    /**@type {boolean} クラスに参加している必要があるか？*/
+    needsJoinClass: boolean;
+    /**@type {{processingYear:number,shouldShow:boolean}} クラス替えを行う際のバナー表示に関連する設定？ */
+    classChangeBanner: {
+        processingYear: number;
+        shouldShow: boolean;
+    };
+    /**@type {string?} Cloud9のリンク。*/
+    ideUrl: string | null;
     /**
      * @deprecated lessonGroupを代理で利用する。
      * @type {Classroom[]}
@@ -116,7 +129,7 @@ export class User extends UserBase {
 }
 export const USER_API_SCHEMA: (input: any, ctx?: {
     errors: Array<(string | number | symbol)[]>;
-}, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "ide_url"]: z.Infer<{
+}, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: z.Infer<{
     language: z.Validator<string>;
     log_level: z.Validator<string>;
     header_user_icon_name: z.Validator<string>;
@@ -143,7 +156,7 @@ export const USER_API_SCHEMA: (input: any, ctx?: {
     player_name: z.Validator<string>;
     nickname: z.Validator<string>;
     chatroom_nickname: z.Validator<string | null>;
-    avatarFileName: z.Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
+    avatarFileName: z.Validator<string>;
     headerUserIconName: z.Validator<string>;
     header_appearance: (input: any, ctx?: {
         errors: Array<(string | number | symbol)[]>;
@@ -190,7 +203,16 @@ export const USER_API_SCHEMA: (input: any, ctx?: {
     drillAvailable: z.Validator<boolean>;
     examAvailable: z.Validator<boolean>;
     accountAvailable: z.Validator<boolean>;
-    ide_url: z.Validator<string>;
+    isProvisional: z.Validator<boolean>;
+    hasClassCodesInSchool: z.Validator<boolean>;
+    needsJoinClass: z.Validator<boolean>;
+    classChangeBanner: (input: any, ctx?: {
+        errors: Array<(string | number | symbol)[]>;
+    }, path?: (string | number | symbol)[]) => input is { [K in "processingYear" | "shouldShow"]: z.Infer<{
+        processingYear: z.Validator<number>;
+        shouldShow: z.Validator<boolean>;
+    }[K]>; };
+    ide_url: z.Validator<string | null>;
 }[K]>; };
 import { PageBase } from "./page";
 import { Course } from "./course";

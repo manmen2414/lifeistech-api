@@ -31,6 +31,8 @@ export class ChapterBase implements Loadable<Chapter> {
     websiteId: number | null;
     /**@type {LessonBase[]} チャプター内のレッスン。*/
     lessons: LessonBase[];
+    /**@type {NextLesson?} レッスンを中断した場合に記録される情報。 */
+    nextLesson: NextLesson | null;
     /**@type {Course} 取得元のユーザー。*/
     course: Course;
     /**
@@ -72,4 +74,5 @@ export class Chapter extends ChapterBase {
     isLogining: boolean | undefined;
 }
 import { LessonBase } from "./lesson.js";
+import { NextLesson } from "./lesson.js";
 import { CheckWorkResult } from "./checkWorkResult.js";

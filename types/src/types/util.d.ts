@@ -36,4 +36,6 @@ type CharactorAvatars =
   | "heroine2_conv"
   | "heroine3_conv";
 
-export { Loadable, ConstructFunction, CharactorAvatars };
+type lizodValidatorContext = { errors: (string | number)[][] };
+
+export { Loadable, ConstructFunction, CharactorAvatars, lizodValidatorContext };

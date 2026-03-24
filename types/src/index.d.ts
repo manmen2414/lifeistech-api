@@ -2,17 +2,19 @@ declare const _exports: {
     getCharactorsImage: typeof import("./util").getCharactorsImage;
     checkIsLITPage: typeof import("./util").checkIsLITPage;
     checkCookieToken: typeof import("./util").checkCookieToken;
+    reportLizodError: (obj: object, ctx: import("./types/util").lizodValidatorContext) => void;
     API_URL: "https://api.lifeistech-lesson.jp/api/players";
     API_CH5_URL: string;
     DeferedArray: typeof import("./util").DeferedArray;
     tryJSONParse: typeof import("./util").tryJSONParse;
     checkAuthParseJSON: typeof import("./util").checkAuthParseJSON;
     CharactorAvatarsEnum: import("lizod").Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
+    getCharactorsSvgWithScraping: typeof import("./util").getCharactorsSvgWithScraping;
     UserBase: typeof import("./user").UserBase;
     User: typeof import("./user").User;
     USER_API_SCHEMA: (input: any, ctx?: {
         errors: Array<(string | number | symbol)[]>;
-    }, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "ide_url"]: import("lizod").Infer<{
+    }, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: import("lizod").Infer<{
         language: import("lizod").Validator<string>;
         log_level: import("lizod").Validator<string>;
         header_user_icon_name: import("lizod").Validator<string>;
@@ -39,7 +41,7 @@ declare const _exports: {
         player_name: import("lizod").Validator<string>;
         nickname: import("lizod").Validator<string>;
         chatroom_nickname: import("lizod").Validator<string | null>;
-        avatarFileName: import("lizod").Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
+        avatarFileName: import("lizod").Validator<string>;
         headerUserIconName: import("lizod").Validator<string>;
         header_appearance: (input: any, ctx?: {
             errors: Array<(string | number | symbol)[]>;
@@ -86,7 +88,16 @@ declare const _exports: {
         drillAvailable: import("lizod").Validator<boolean>;
         examAvailable: import("lizod").Validator<boolean>;
         accountAvailable: import("lizod").Validator<boolean>;
-        ide_url: import("lizod").Validator<string>;
+        isProvisional: import("lizod").Validator<boolean>;
+        hasClassCodesInSchool: import("lizod").Validator<boolean>;
+        needsJoinClass: import("lizod").Validator<boolean>;
+        classChangeBanner: (input: any, ctx?: {
+            errors: Array<(string | number | symbol)[]>;
+        }, path?: (string | number | symbol)[]) => input is { [K in "processingYear" | "shouldShow"]: import("lizod").Infer<{
+            processingYear: import("lizod").Validator<number>;
+            shouldShow: import("lizod").Validator<boolean>;
+        }[K]>; };
+        ide_url: import("lizod").Validator<string | null>;
     }[K]>; };
     PageFile: typeof import("./pageComponents").PageFile;
     PageImage: typeof import("./pageComponents").PageImage;
@@ -123,7 +134,7 @@ declare const _exports: {
     Page: typeof import("./page").Page;
     PAGE_API_SCHEMA: (input: any, ctx?: {
         errors: Array<(string | number | symbol)[]>;
-    }, path?: (string | number | symbol)[]) => input is { [K in "id" | "preview_url" | "player_id" | "title" | "is_read" | "data_tables" | "files" | "images" | "preset_images"]: import("lizod").Infer<{
+    }, path?: (string | number | symbol)[]) => input is { [K in "title" | "id" | "preview_url" | "player_id" | "is_read" | "data_tables" | "files" | "images" | "preset_images"]: import("lizod").Infer<{
         id: import("lizod").Validator<number>;
         player_id: import("lizod").Validator<number>;
         title: import("lizod").Validator<string>;
@@ -171,6 +182,7 @@ declare const _exports: {
     Classroom: typeof import("./lessongroup").Classroom;
     Lesson: typeof import("./lesson").Lesson;
     LessonBase: typeof import("./lesson").LessonBase;
+    NextLesson: typeof import("./lesson").NextLesson;
     AccountNotAvailableError: typeof import("./errors").AccountNotAvailableError;
     UnexpectedResponseError: typeof import("./errors").UnexpectedResponseError;
     Course: typeof import("./course").Course;

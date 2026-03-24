@@ -20,8 +20,8 @@ export class Lesson extends LessonBase {
     hasChatContents: boolean;
     /**@type {import("./types/lesson").LessonStartLink[]} レッスンの開始リンク。*/
     startLinks: import("./types/lesson").LessonStartLink[];
-    /**@type {any} レッスンの再開リンク？*/
-    continueLink: any;
+    /**@type {import("./types/lesson").LessonStartLink?} レッスンの再開リンク。*/
+    continueLink: import("./types/lesson").LessonStartLink | null;
     /**@type {Material[]} レッスンの「補助教材」リスト。*/
     materials: Material[];
     /**@type {Material[]} レッスンの「ワークシート」リスト。*/
@@ -57,6 +57,13 @@ export class LessonBase implements Loadable<Lesson> {
     loaded: Lesson | null;
     load(): Promise<Lesson>;
     getLoaded(): Promise<Lesson>;
+}
+export class NextLesson extends LessonBase {
+    /**@type {"lesson"}  */
+    type: "lesson";
+    /**@type {string} */
+    playerLink: string;
+    updatedAt: Date;
 }
 import { CheckWork } from "./checkWork";
 import { Material } from "./material";
