@@ -6,6 +6,9 @@ const API_CH5_URL = API_URL + "/chapters/36/web_sites/1/player_web_sites";
 /**
  * キャラクター6人の画像を取得する。
  * おそらく没になった男子3と女子3のアナザーバージョンも取得できる。
+ *
+ * **最新版のLITでは仕様が変更された為、この関数でキャラクターを取得できません。**
+ * @deprecated `getCharactorsSvgWithScraping`を用いてください。
  */
 async function getCharactorsImage() {
   /**@type {string[]} */
@@ -29,6 +32,62 @@ async function getCharactorsImage() {
     heroine3_removed: charaDatas[7],
     heroine3_conv: charaDatas[8],
   };
+}
+
+/**
+ * 非常に無理やりキャラクター6人のsvg htmlを取得する。\
+ * プロフィール変更ページのiframeを呼び出しブラウザを用いたスクレイピングで強制的に取得する。\
+ * (life is tech外で利用不能)
+ * @returns {Promise<{hero1_conv:string,hero2_conv:string,hero3_conv:string,heroine1_conv:string,heroine2_conv:string,heroine3_conv:string}>}
+ */
+function getCharactorsSvgWithScraping() {
+  return new Promise((r, j) => {
+    const profileIframe = document.createElement("iframe");
+    profileIframe.width = "0";
+    profileIframe.height = "0";
+    profileIframe.src = "https://member.lifeistech-lesson.jp/profile";
+    profileIframe.onload = () => {
+      let ifDocs =
+        profileIframe.contentDocument || profileIframe.contentWindow?.document;
+      if (!ifDocs) {
+        profileIframe.remove();
+        j(new Error("Parent page is not member.lifeistech-lesson.jp"));
+        return;
+      }
+      const observer = new MutationObserver(() => {
+        ifDocs =
+          profileIframe.contentDocument ||
+          profileIframe.contentWindow?.document;
+        if (!ifDocs) {
+          profileIframe.remove();
+          j(
+            new Error(
+              "Page redirected on getCharactorsSvgWithScraping iframe (Did you logged in?)",
+            ),
+          );
+          return;
+        }
+        const svgWrappers = ifDocs.getElementsByClassName("css-pv0x30");
+        if (svgWrappers.length !== 6) return;
+        observer.disconnect();
+        profileIframe.remove();
+        r({
+          hero1_conv: svgWrappers[0].innerHTML,
+          hero2_conv: svgWrappers[1].innerHTML,
+          hero3_conv: svgWrappers[2].innerHTML,
+          heroine1_conv: svgWrappers[3].innerHTML,
+          heroine2_conv: svgWrappers[4].innerHTML,
+          heroine3_conv: svgWrappers[5].innerHTML,
+        });
+      });
+      observer.observe(ifDocs.body, {
+        attributes: false,
+        childList: true,
+        subtree: true,
+      });
+    };
+    document.body.appendChild(profileIframe);
+  });
 }
 
 /**
@@ -147,4 +206,5 @@ module.exports = {
   tryJSONParse,
   checkAuthParseJSON,
   CharactorAvatarsEnum,
+  getCharactorsSvgWithScraping,
 };
