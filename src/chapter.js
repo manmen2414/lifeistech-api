@@ -6,7 +6,7 @@
 
 const { UnexpectedResponseError } = require("./errors.js");
 const { API_URL, checkAuthParseJSON } = require("./util.js");
-const { LessonBase } = require("./lesson.js");
+const { LessonBase, NextLesson } = require("./lesson.js");
 const { CheckWorkResult } = require("./checkWorkResult.js");
 
 /**
@@ -42,6 +42,10 @@ class ChapterBase {
     this.lessons = rawjson.lessons.map(
       /**@param {any} l*/ (l) => new LessonBase(l, this),
     );
+    /**@type {NextLesson?} レッスンを中断した場合に記録される情報。 */
+    this.nextLesson = !rawjson.next_lesson
+      ? null
+      : new NextLesson(rawjson.next_lesson, this);
 
     /**@type {Course} 取得元のユーザー。*/
     this.course = course;

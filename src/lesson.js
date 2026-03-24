@@ -26,7 +26,7 @@ class LessonBase {
     /**@type {string} レッスンの達成状況。*/
     this.status = rawjson.status;
     // TODO: 協力者求: statusのとりうる値を知りたい
-    // "cleared"|
+    // "cleared"|"started"|"unlocked"
     /** 大元のチャプター。*/
     this.chapter = chapter;
     this.loaded = null;
@@ -40,6 +40,28 @@ class LessonBase {
   async getLoaded() {
     if (!this.loaded) return await this.load();
     return this.loaded;
+  }
+}
+class NextLesson extends LessonBase {
+  /**
+   * @param {any} rawjson
+   * @param {ChapterBase} chapter
+   */
+  constructor(rawjson, chapter) {
+    super(
+      {
+        id: rawjson.chapter_id,
+        title: rawjson.title,
+        no: rawjson.no,
+        status: "started",
+      },
+      chapter,
+    );
+    /**@type {"lesson"}  */
+    this.type = rawjson.type;
+    /**@type {string} */
+    this.playerLink = rawjson.player_link;
+    this.updatedAt = new Date(rawjson.updated_at);
   }
 }
 class Lesson extends LessonBase {
@@ -128,4 +150,4 @@ class Lesson extends LessonBase {
   }
 }
 
-module.exports = { Lesson, LessonBase };
+module.exports = { Lesson, LessonBase, NextLesson };
