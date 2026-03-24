@@ -102,7 +102,7 @@ export const PAGEIMAGE_API_SCHEMA: (input: any, ctx?: {
     id: z.Validator<number>;
     name: z.Validator<string>;
     url: z.Validator<string>;
-    thumbnail_url: z.Validator<string | null>;
+    thumbnail_url: z.Validator<void>;
 }[K]>; };
 export const PAGEDATATABLE_API_SCHEMA: (input: any, ctx?: {
     errors: Array<(string | number | symbol)[]>;

@@ -136,7 +136,7 @@ export const PAGE_API_SCHEMA: (input: any, ctx?: {
         id: number;
         name: string;
         url: string;
-        thumbnail_url: string | null;
+        thumbnail_url: void;
     }[];
     preset_images: (input: any, ctx?: {
         errors: Array<(string | number | symbol)[]>;
@@ -144,7 +144,7 @@ export const PAGE_API_SCHEMA: (input: any, ctx?: {
         id: number;
         name: string;
         url: string;
-        thumbnail_url: string | null;
+        thumbnail_url: void;
     }[];
 }[K]>; };
 import { PageFile } from "./pageComponents.js";
