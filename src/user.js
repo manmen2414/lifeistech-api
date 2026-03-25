@@ -279,6 +279,8 @@ class User extends UserBase {
     this.hasClassCodesInSchool = false;
     /**@type {boolean} クラスに参加している必要があるか？*/
     this.needsJoinClass = false;
+    /**@type {boolean} シシングサインオンによって認証されたユーザーであるか。 */
+    this.ssoAuthenticated = false;
     /**@type {{processingYear:number,shouldShow:boolean}} クラス替えを行う際のバナー表示に関連する設定？ */
     this.classChangeBanner = {
       processingYear: NaN,
@@ -333,6 +335,7 @@ class User extends UserBase {
     this.needsJoinClass = rawjson.needsJoinClass;
     this.classChangeBanner = rawjson.classChangeBanner;
     this.ideUrl = rawjson.ide_url;
+    this.ssoAuthenticated = rawjson.ssoAuthenticated;
     this.lessonGroups = rawjson.lessonGroups.map(
       /**@param {any} j  */
       (j) => new LessonGroup(j, this),
@@ -399,6 +402,7 @@ const USER_API_SCHEMA = z.$object({
   examAvailable: z.$boolean,
   accountAvailable: z.$boolean,
   isProvisional: z.$boolean,
+  ssoAuthenticated: z.$boolean,
   hasClassCodesInSchool: z.$boolean,
   needsJoinClass: z.$boolean,
   classChangeBanner: z.$object({
