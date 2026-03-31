@@ -52,6 +52,30 @@ class MeasureControlSystemBase {
     if (!this.loaded) return await this.load();
     return this.loaded;
   }
+  /**
+   * システムデータを保存する。
+   * @param {any} systemJson
+   * @returns {Promise<boolean|string>} 成功の場合はtrue、失敗の場合はエラー文
+   */
+  async save(systemJson) {
+    const res = await fetch(`${API_CH8_URL}/${this.id}`, {
+      headers: {
+        authorization: `Bearer ${this.user.token}`,
+        "content-type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(systemJson),
+      mode: "cors",
+    });
+    const rawjson = await checkAuthParseJSON(res);
+    if (typeof rawjson.error === "string") {
+      return rawjson.error;
+    }
+    if (typeof rawjson.id === "number") {
+      return true;
+    }
+    return `Unexpected Response: ${JSON.stringify(rawjson)}`;
+  }
 }
 
 class MeasureControlSystem extends MeasureControlSystemBase {
@@ -142,6 +166,30 @@ class MeasureControlSystem extends MeasureControlSystemBase {
     this.customBackground = rawjson.scene_definition_json.customBackground;
     this.environmentType = rawjson.scene_definition_json.environmentType;
     return this;
+  }
+  toJSON() {
+    return {
+      program_code: this.programCode,
+      scene_definition_json: {
+        sensorPlacements: this.sensorPlacements.map((s) => s.toJSON()),
+        actuatorPlacements: this.actuatorPlacements.map((a) => a.toJSON()),
+        customSensorDefinitions: this.customSensorDefinitions.map((cs) =>
+          cs.toJSON(),
+        ),
+        customActuatorDefinitions: this.customActuatorDefinitions.map((ca) =>
+          ca.toJSON(),
+        ),
+        distanceTarget: this.distanceTarget,
+        target: this.target.toJSON(),
+        backgroundId: this.backgroundId,
+        backgroundImageUrl: this.backgroundImageUrl,
+        customBackground: this.customBackground,
+        environmentType: this.environmentType,
+      },
+    };
+  }
+  async save() {
+    return super.save(this.toJSON());
   }
 }
 
