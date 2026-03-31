@@ -94,6 +94,8 @@ declare class MeasureControlSensor extends MeasureControlMoveable {
 	} | null;
 	/**@type {string?} ユーザー定義センサーの設定のid。 */
 	customDefinitionId: string | null;
+	/**@returns {"sensor"} */
+	getKind(): "sensor";
 	toJSON(): {
 		id: string;
 		type: string;
@@ -125,6 +127,8 @@ declare class MeasureControlActuator extends MeasureControlMoveable {
 	scale: number;
 	/**@type {string?} ユーザー定義アクチュエータの設定のid。 */
 	customDefinitionId: string | null;
+	/**@returns {"actuator"} */
+	getKind(): "actuator";
 	toJSON(): {
 		id: string;
 		type: string;
@@ -888,6 +892,8 @@ declare class User extends UserBase$3 {
 	hasClassCodesInSchool: boolean;
 	/**@type {boolean} クラスに参加している必要があるか？*/
 	needsJoinClass: boolean;
+	/**@type {boolean} シシングサインオンによって認証されたユーザーであるか。 */
+	ssoAuthenticated: boolean;
 	/**@type {{processingYear:number,shouldShow:boolean}} クラス替えを行う際のバナー表示に関連する設定？ */
 	classChangeBanner: {
 		processingYear: number;
@@ -927,6 +933,12 @@ declare class MeasureControlSystemBase implements Loadable$5<MeasureControlSyste
 	 * でなければリクエストを行ってオブジェクトを取得する。
 	 */
 	getLoaded(): Promise<MeasureControlSystem>;
+	/**
+	 * システムデータを保存する。
+	 * @param {any} systemJson
+	 * @returns {Promise<boolean|string>} 成功の場合はtrue、失敗の場合はエラー文
+	 */
+	save(systemJson: any): Promise<boolean | string>;
 }
 declare class MeasureControlSystem extends MeasureControlSystemBase {
 	/**@param {MeasureControlSystemBase} base  */
@@ -968,6 +980,91 @@ declare class MeasureControlSystem extends MeasureControlSystemBase {
 	/**@type {"indoor"|"outdoor"} */
 	environmentType: "indoor" | "outdoor";
 	load(): Promise<this>;
+	toJSON(): {
+		program_code: string;
+		scene_definition_json: {
+			sensorPlacements: {
+				id: string;
+				type: string;
+				position: {
+					x: number;
+					y: number;
+				};
+				variableName: string;
+				source: {
+					kind: "auto";
+				} | null;
+				customDefinitionId: string | null;
+			}[];
+			actuatorPlacements: {
+				id: string;
+				type: string;
+				position: {
+					x: number;
+					y: number;
+				};
+				variableName: string;
+				scale: number;
+				customDefinitionId: string | null;
+			}[];
+			customSensorDefinitions: {
+				id: string;
+				type: "custom";
+				name: string;
+				inputType: "button" | "slider";
+				min: number;
+				max: number;
+				baseValue: number;
+				displayDecimals: number;
+				unit: string;
+				noise: number;
+			}[];
+			customActuatorDefinitions: {
+				id: string;
+				type: "custom";
+				name: string;
+				imagePath: {
+					off: string;
+					on: string;
+				};
+				effects: any[];
+			}[];
+			distanceTarget: any;
+			target: {
+				id: string;
+				name: string;
+				imagePath: {
+					before: string;
+					after: string;
+				};
+				conditions: {
+					kind: "actuator" | "sensor";
+					placementId: string;
+				}[];
+				conditionLogic: "all" | "any";
+				position: {
+					x: number;
+					y: number;
+				};
+			};
+			backgroundId: string;
+			backgroundImageUrl: any;
+			customBackground: {
+				cropArea: {
+					width: number;
+					height: number;
+					x: number;
+					y: number;
+				};
+				id: string;
+				name: string;
+				environment: string;
+				imageKey: string;
+			} | null;
+			environmentType: "indoor" | "outdoor";
+		};
+	};
+	save(): Promise<string | boolean>;
 }
 declare class MeasureControlTarget extends MeasureControlMoveable {
 	/**
@@ -1006,6 +1103,34 @@ declare class MeasureControlTarget extends MeasureControlMoveable {
 			y: number;
 		};
 	};
+	/**
+	 * 名前を変更する。
+	 * @param {string} newName
+	 */
+	rename(newName: string): this;
+	/**
+	 * 複数条件への対応ルールを設定するか、切り替える。
+	 * @param {"all"|"any"|null} newLogic
+	 */
+	changeConditionLogic(newLogic?: "all" | "any" | null): this;
+	/**
+	 * @overload
+	 * 数値比較を行う条件を追加する。
+	 * @param {import("./MeasureControlActuator").MeasureControlActuator|import("./MeasureControlSensor").MeasureControlSensor} targetObject
+	 * @param {number} value
+	 * @param {"gt"|"eq"|"lt"} comparisonOperator
+	 * @returns {this}
+	 */
+	addCondition(targetObject: MeasureControlActuator | MeasureControlSensor, value: number, comparisonOperator: "gt" | "eq" | "lt"): this;
+	/**
+	 * @overload
+	 * ON/OFF比較を行う条件を追加する。
+	 * @param {import("./MeasureControlActuator").MeasureControlActuator|import("./MeasureControlSensor").MeasureControlSensor} targetObject
+	 * @param {"ON"|"OFF"} value
+	 * @param {null} comparisonOperator
+	 * @returns {this}
+	 */
+	addCondition(targetObject: MeasureControlActuator | MeasureControlSensor, value: "ON" | "OFF", comparisonOperator: null): this;
 }
 declare function getCharactorsImage(): Promise<{
 	hero1_conv: string;
@@ -1093,7 +1218,7 @@ declare const _exports: {
 	USER_API_SCHEMA: (input: any, ctx?: {
 		errors: Array<(string | number | symbol)[]>;
 	}, path?: (string | number | symbol)[]) => input is {
-		[K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: import("lizod").Infer<{
+		[K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "ssoAuthenticated" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: import("lizod").Infer<{
 			language: import("lizod").Validator<string>;
 			log_level: import("lizod").Validator<string>;
 			header_user_icon_name: import("lizod").Validator<string>;
@@ -1174,6 +1299,7 @@ declare const _exports: {
 			examAvailable: import("lizod").Validator<boolean>;
 			accountAvailable: import("lizod").Validator<boolean>;
 			isProvisional: import("lizod").Validator<boolean>;
+			ssoAuthenticated: import("lizod").Validator<boolean>;
 			hasClassCodesInSchool: import("lizod").Validator<boolean>;
 			needsJoinClass: import("lizod").Validator<boolean>;
 			classChangeBanner: (input: any, ctx?: {

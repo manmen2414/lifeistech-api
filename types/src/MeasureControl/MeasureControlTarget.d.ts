@@ -35,6 +35,34 @@ export class MeasureControlTarget extends MeasureControlMoveable {
             y: number;
         };
     };
+    /**
+     * 名前を変更する。
+     * @param {string} newName
+     */
+    rename(newName: string): this;
+    /**
+     * 複数条件への対応ルールを設定するか、切り替える。
+     * @param {"all"|"any"|null} newLogic
+     */
+    changeConditionLogic(newLogic?: "all" | "any" | null): this;
+    /**
+     * @overload
+     * 数値比較を行う条件を追加する。
+     * @param {import("./MeasureControlActuator").MeasureControlActuator|import("./MeasureControlSensor").MeasureControlSensor} targetObject
+     * @param {number} value
+     * @param {"gt"|"eq"|"lt"} comparisonOperator
+     * @returns {this}
+     */
+    addCondition(targetObject: import("./MeasureControlActuator").MeasureControlActuator | import("./MeasureControlSensor").MeasureControlSensor, value: number, comparisonOperator: "gt" | "eq" | "lt"): this;
+    /**
+     * @overload
+     * ON/OFF比較を行う条件を追加する。
+     * @param {import("./MeasureControlActuator").MeasureControlActuator|import("./MeasureControlSensor").MeasureControlSensor} targetObject
+     * @param {"ON"|"OFF"} value
+     * @param {null} comparisonOperator
+     * @returns {this}
+     */
+    addCondition(targetObject: import("./MeasureControlActuator").MeasureControlActuator | import("./MeasureControlSensor").MeasureControlSensor, value: "ON" | "OFF", comparisonOperator: null): this;
 }
 import { MeasureControlMoveable } from "./MeasureControlMoveable";
 import { MeasureControlCondition } from "./MeasureControlCondition";

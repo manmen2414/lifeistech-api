@@ -26,7 +26,7 @@ declare const _exports: {
     User: typeof import("./user").User;
     USER_API_SCHEMA: (input: any, ctx?: {
         errors: Array<(string | number | symbol)[]>;
-    }, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: import("lizod").Infer<{
+    }, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "ssoAuthenticated" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: import("lizod").Infer<{
         language: import("lizod").Validator<string>;
         log_level: import("lizod").Validator<string>;
         header_user_icon_name: import("lizod").Validator<string>;
@@ -101,6 +101,7 @@ declare const _exports: {
         examAvailable: import("lizod").Validator<boolean>;
         accountAvailable: import("lizod").Validator<boolean>;
         isProvisional: import("lizod").Validator<boolean>;
+        ssoAuthenticated: import("lizod").Validator<boolean>;
         hasClassCodesInSchool: import("lizod").Validator<boolean>;
         needsJoinClass: import("lizod").Validator<boolean>;
         classChangeBanner: (input: any, ctx?: {

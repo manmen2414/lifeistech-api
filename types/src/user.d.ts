@@ -115,6 +115,8 @@ export class User extends UserBase {
     hasClassCodesInSchool: boolean;
     /**@type {boolean} クラスに参加している必要があるか？*/
     needsJoinClass: boolean;
+    /**@type {boolean} シシングサインオンによって認証されたユーザーであるか。 */
+    ssoAuthenticated: boolean;
     /**@type {{processingYear:number,shouldShow:boolean}} クラス替えを行う際のバナー表示に関連する設定？ */
     classChangeBanner: {
         processingYear: number;
@@ -134,7 +136,7 @@ export class User extends UserBase {
 }
 export const USER_API_SCHEMA: (input: any, ctx?: {
     errors: Array<(string | number | symbol)[]>;
-}, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: z.Infer<{
+}, path?: (string | number | symbol)[]) => input is { [K in "id" | "language" | "log_level" | "header_user_icon_name" | "login_status" | "my_page_url" | "custom_items" | "setting_menu_items" | "logo_url" | "player_name" | "nickname" | "chatroom_nickname" | "avatarFileName" | "headerUserIconName" | "header_appearance" | "soundConfig" | "soundVolume" | "schoolId" | "defaultPassword" | "disabledLogin" | "demoAccount" | "lessonGroups" | "currentSchoolKind" | "lessonAvailable" | "drillAvailable" | "examAvailable" | "accountAvailable" | "isProvisional" | "ssoAuthenticated" | "hasClassCodesInSchool" | "needsJoinClass" | "classChangeBanner" | "ide_url"]: z.Infer<{
     language: z.Validator<string>;
     log_level: z.Validator<string>;
     header_user_icon_name: z.Validator<string>;
@@ -209,6 +211,7 @@ export const USER_API_SCHEMA: (input: any, ctx?: {
     examAvailable: z.Validator<boolean>;
     accountAvailable: z.Validator<boolean>;
     isProvisional: z.Validator<boolean>;
+    ssoAuthenticated: z.Validator<boolean>;
     hasClassCodesInSchool: z.Validator<boolean>;
     needsJoinClass: z.Validator<boolean>;
     classChangeBanner: (input: any, ctx?: {

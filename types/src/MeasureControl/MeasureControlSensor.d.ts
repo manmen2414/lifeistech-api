@@ -17,6 +17,8 @@ export class MeasureControlSensor extends MeasureControlMoveable {
     } | null;
     /**@type {string?} ユーザー定義センサーの設定のid。 */
     customDefinitionId: string | null;
+    /**@returns {"sensor"} */
+    getKind(): "sensor";
     toJSON(): {
         id: string;
         type: string;
