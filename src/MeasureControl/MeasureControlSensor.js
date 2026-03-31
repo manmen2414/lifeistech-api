@@ -19,6 +19,10 @@ class MeasureControlSensor extends MeasureControlMoveable {
     /**@type {string?} ユーザー定義センサーの設定のid。 */
     this.customDefinitionId = rawjson.customDefinitionId ?? null;
   }
+  /**@returns {"sensor"} */
+  getKind() {
+    return "sensor";
+  }
   toJSON() {
     return {
       id: this.id,

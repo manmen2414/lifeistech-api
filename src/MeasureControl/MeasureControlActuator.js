@@ -19,6 +19,10 @@ class MeasureControlActuator extends MeasureControlMoveable {
     /**@type {string?} ユーザー定義アクチュエータの設定のid。 */
     this.customDefinitionId = rawjson.customDefinitionId ?? null;
   }
+  /**@returns {"actuator"} */
+  getKind() {
+    return "actuator";
+  }
   toJSON() {
     return {
       id: this.id,
