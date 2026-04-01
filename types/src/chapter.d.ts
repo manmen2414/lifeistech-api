@@ -71,7 +71,6 @@ export class Chapter extends ChapterBase {
     /**@type {string} */
     goal: string;
     load(): Promise<this>;
-    isLogining: boolean | undefined;
 }
 import { LessonBase } from "./lesson.js";
 import { NextLesson } from "./lesson.js";

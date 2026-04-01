@@ -18,6 +18,7 @@ type AddFileReturns = Promise<
       error: {
         /**ファイル形式が非対応。 */
         unsupportedMediaType: boolean;
+        conflicted: boolean;
       };
     }
 >;

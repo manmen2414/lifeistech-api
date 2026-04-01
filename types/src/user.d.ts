@@ -73,9 +73,10 @@ export class UserBase implements Loadable<User> {
 export class User extends UserBase {
     /**
      * tokenから全ての情報を持ったクラスを返す。
-     * @param {string} token
+     * tokenが与えられていない場合環境変数"MOZERMOVIE"またはCookie"mozermovie"から取得を試みる。
+     * @param {string?} token
      */
-    static Load(token: string): Promise<User>;
+    static Load(token: string | null): Promise<User>;
     /**
      * @param {UserBase} base
      */

@@ -254,6 +254,7 @@ export type AddFileReturns = Promise<{
 	error: {
 		/**ファイル形式が非対応。 */
 		unsupportedMediaType: boolean;
+		conflicted: boolean;
 	};
 }>;
 export type UploadImageReturns = Promise<{
@@ -408,10 +409,20 @@ declare class PageBase implements Loadable$1<Page$1> {
 	 */
 	addFile(name: string, extension: "html" | "css" | "js"): AddFileReturns;
 	/**
-	 * ページをzipファイルのBase64形式でダウンロードする。
-	 * @param {boolean} formatToDataUrl
+	 * ページのzipファイルを取得できるリンクを返す。
 	 */
-	getZipB64(formatToDataUrl: boolean): Promise<string>;
+	getZipDownloadLink(): string;
+	/**
+	 * ページのzipファイルを取得するレスポンスを返す。
+	 */
+	getZipResponse(): Promise<Response>;
+	/**
+	 * ページのzipファイルをBase64形式で取得する。
+	 * @param {boolean} formatToDataUrl
+	 * @returns {Promise<string>}
+	 * @deprecated 処理の仕様上メモリを大量に消費する上、実行環境によって実行できない可能性があるため、`getZipDownloadLink`または`getZipResponse`を用いてダウンロードメカニズムを各自実装することを推奨。
+	 */
+	getZipB64(formatToDataUrl?: boolean): Promise<string>;
 	/**
 	 * 画像をBase64形式からアップロードする。
 	 * @param {string} base64
@@ -715,7 +726,6 @@ declare class Chapter extends ChapterBase$1 {
 	/**@type {string} */
 	goal: string;
 	load(): Promise<this>;
-	isLogining: boolean | undefined;
 }
 type UserBase$1 = UserBase$3;
 declare class Course$1 {
@@ -850,9 +860,10 @@ declare class UserBase$3 implements Loadable$4<User> {
 declare class User extends UserBase$3 {
 	/**
 	 * tokenから全ての情報を持ったクラスを返す。
-	 * @param {string} token
+	 * tokenが与えられていない場合環境変数"MOZERMOVIE"またはCookie"mozermovie"から取得を試みる。
+	 * @param {string?} token
 	 */
-	static Load(token: string): Promise<User>;
+	static Load(token: string | null): Promise<User>;
 	/**
 	 * @param {UserBase} base
 	 */
@@ -1213,6 +1224,7 @@ declare const _exports: {
 	checkAuthParseJSON: typeof checkAuthParseJSON;
 	CharactorAvatarsEnum: import("lizod").Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
 	getCharactorsSvgWithScraping: typeof getCharactorsSvgWithScraping;
+	tryGetMozermovie: () => Promise<string | null>;
 	UserBase: typeof UserBase$3;
 	User: typeof User;
 	USER_API_SCHEMA: (input: any, ctx?: {

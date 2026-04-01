@@ -22,6 +22,7 @@ declare const _exports: {
     checkAuthParseJSON: typeof import("./util").checkAuthParseJSON;
     CharactorAvatarsEnum: import("lizod").Validator<"hero1_conv" | "hero2_conv" | "hero3_conv" | "heroine1_conv" | "heroine2_conv" | "heroine3_conv">;
     getCharactorsSvgWithScraping: typeof import("./util").getCharactorsSvgWithScraping;
+    tryGetMozermovie: () => Promise<string | null>;
     UserBase: typeof import("./user").UserBase;
     User: typeof import("./user").User;
     USER_API_SCHEMA: (input: any, ctx?: {

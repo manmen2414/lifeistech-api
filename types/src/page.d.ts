@@ -51,10 +51,20 @@ export class PageBase implements Loadable<Page> {
      */
     addFile(name: string, extension: "html" | "css" | "js"): import("./types/page.js").AddFileReturns;
     /**
-     * ページをzipファイルのBase64形式でダウンロードする。
-     * @param {boolean} formatToDataUrl
+     * ページのzipファイルを取得できるリンクを返す。
      */
-    getZipB64(formatToDataUrl: boolean): Promise<string>;
+    getZipDownloadLink(): string;
+    /**
+     * ページのzipファイルを取得するレスポンスを返す。
+     */
+    getZipResponse(): Promise<Response>;
+    /**
+     * ページのzipファイルをBase64形式で取得する。
+     * @param {boolean} formatToDataUrl
+     * @returns {Promise<string>}
+     * @deprecated 処理の仕様上メモリを大量に消費する上、実行環境によって実行できない可能性があるため、`getZipDownloadLink`または`getZipResponse`を用いてダウンロードメカニズムを各自実装することを推奨。
+     */
+    getZipB64(formatToDataUrl?: boolean): Promise<string>;
     /**
      * 画像をBase64形式からアップロードする。
      * @param {string} base64

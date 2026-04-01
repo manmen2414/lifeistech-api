@@ -88,4 +88,8 @@ export function getCharactorsSvgWithScraping(): Promise<{
     heroine2_conv: string;
     heroine3_conv: string;
 }>;
+/**
+ * 環境変数"MOZERMOVIE"またはCookie"mozermovie"から取得を試みる。
+ */
+export function tryGetMozermovie(): Promise<string | null>;
 import z = require("lizod");
