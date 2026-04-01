@@ -135,11 +135,16 @@ class PageBase {
     return { successed: false, error };
   }
   /**
-   * ページをzipファイルのBase64形式でダウンロードする。
-   * @param {boolean} formatToDataUrl
+   * ページのzipファイルを取得できるリンクを返す。
    */
-  async getZipB64(formatToDataUrl) {
-    const res = await fetch(`${API_CH5_URL}/${this.id}/archive`, {
+  getZipDownloadLink() {
+    return `${API_CH5_URL}/${this.id}/archive`;
+  }
+  /**
+   * ページのzipファイルを取得するレスポンスを返す。
+   */
+  async getZipResponse() {
+    const res = await fetch(this.getZipDownloadLink(), {
       headers: {
         authorization: `Bearer ${this.user.token}`,
       },
@@ -148,9 +153,38 @@ class PageBase {
     });
     if (res.status === 401)
       throw new AccountNotAvailableError("Account is not available");
-    const b64 = await res.text();
-    if (formatToDataUrl) return "data:application/zip," + b64;
-    return b64;
+    return res;
+  }
+  /**
+   * ページのzipファイルをBase64形式で取得する。
+   * @param {boolean} formatToDataUrl
+   * @returns {Promise<string>}
+   * @deprecated 処理の仕様上メモリを大量に消費する上、実行環境によって実行できない可能性があるため、`getZipDownloadLink`または`getZipResponse`を用いてダウンロードメカニズムを各自実装することを推奨。
+   */
+  getZipB64(formatToDataUrl = false) {
+    return new Promise(async (s, r) => {
+      const res = await this.getZipResponse();
+      if (typeof FileReader !== "undefined") {
+        const blob = await res.blob();
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result;
+          if (typeof base64String !== "string")
+            throw new Error("Zip data read failed");
+          s(formatToDataUrl ? base64String : base64String.replace(/^.*,/, ""));
+        };
+        reader.onerror = r;
+        reader.readAsDataURL(blob);
+      } else if (typeof Buffer !== "undefined") {
+        const arrayBuffer = await res.arrayBuffer();
+        const b64String = Buffer.from(arrayBuffer).toString("base64");
+        s(
+          formatToDataUrl
+            ? "data:application/zip;base64," + b64String
+            : b64String,
+        );
+      }
+    });
   }
   /**
    * 画像をBase64形式からアップロードする。

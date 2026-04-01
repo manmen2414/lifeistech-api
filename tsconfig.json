@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+      "node"
+    ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler", // これが現在の「es系統」との黄金コンビです
