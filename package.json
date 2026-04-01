@@ -1,6 +1,6 @@
 {
   "name": "lifeistech-api",
-  "version": "1.0.0-beta4",
+  "version": "1.0.0",
   "description": "Life is tech! LessonのオリジナルWebページ内でユーザー情報にアクセスしちゃおう！！",
   "main": "index.js",
   "scripts": {
