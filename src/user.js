@@ -317,13 +317,17 @@ class User extends UserBase {
     const rawjson = await res.json();
     /**@type {import("./types/util.d.ts").lizodValidatorContext} */
     const ctx = { errors: [] };
+    if (
+      res.status === 401 ||
+      (typeof rawjson.login_status === "string" &&
+        rawjson.login_status === "no")
+    )
+      throw new AccountNotAvailableError("Token is invaild");
     if (!USER_API_SCHEMA(rawjson, ctx)) {
       reportLizodError(rawjson, ctx);
       throw new UnexpectedResponseError(`Unexpected User API Response.`);
     }
     this.isLogining = rawjson.login_status === "yes";
-    if (res.status === 401 || !this.isLogining)
-      throw new AccountNotAvailableError("Token is invaild");
     this.language = rawjson.language;
     this.nickname = rawjson.nickname;
     this.backendName = rawjson.player_name;
