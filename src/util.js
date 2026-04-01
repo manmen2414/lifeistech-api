@@ -195,6 +195,24 @@ const reportLizodError = (obj, ctx) => {
   }
 };
 
+/**
+ * 環境変数"MOZERMOVIE"またはCookie"mozermovie"から取得を試みる。
+ */
+const tryGetMozermovie = async () => {
+  /**@type {string?} */
+  let tryToken = null;
+  //@ts-ignore
+  if (typeof process !== "undefined" && typeof process.env !== "undefined") {
+    //@ts-ignore
+    tryToken = process.env.MOZERMOVIE ?? null;
+  }
+  if (!tryToken && typeof cookieStore !== "undefined") {
+    const tokenStore = await cookieStore.get("mozermovie");
+    tryToken = tokenStore?.value ?? null;
+  }
+  return tryToken;
+};
+
 module.exports = {
   getCharactorsImage,
   checkIsLITPage,
@@ -207,4 +225,5 @@ module.exports = {
   checkAuthParseJSON,
   CharactorAvatarsEnum,
   getCharactorsSvgWithScraping,
+  tryGetMozermovie,
 };

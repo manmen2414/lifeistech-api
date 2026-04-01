@@ -18,6 +18,7 @@ const {
   checkAuthParseJSON,
   CharactorAvatarsEnum,
   reportLizodError,
+  tryGetMozermovie,
 } = require("./util");
 const z = require("lizod");
 const {
@@ -231,9 +232,14 @@ class UserBase {
 class User extends UserBase {
   /**
    * tokenから全ての情報を持ったクラスを返す。
-   * @param {string} token
+   * tokenが与えられていない場合環境変数"MOZERMOVIE"またはCookie"mozermovie"から取得を試みる。
+   * @param {string?} token
    */
   static async Load(token) {
+    token = await tryGetMozermovie();
+    if (!token) {
+      throw new Error("Token not found");
+    }
     const userBase = new UserBase(token);
     const loaded = new this(userBase);
     await loaded.load();
