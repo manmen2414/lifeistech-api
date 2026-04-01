@@ -125,6 +125,7 @@ class PageBase {
     const json = await checkAuthParseJSON(res);
     const error = {
       unsupportedMediaType: false,
+      conflicted: false,
     };
     if (!json.error) {
       if (!!this.loaded) this.loaded.load();
@@ -132,6 +133,7 @@ class PageBase {
     }
     if (json.error === "Unsupported Media Type")
       error.unsupportedMediaType = true;
+    if (json.error === "Conflict") error.conflicted = true;
     return { successed: false, error };
   }
   /**
