@@ -1,5 +1,5 @@
-/**@type {import("../dist/types/src/index")} */
-var LifeIsTechAPI = LifeIsTechAPI;
+// WebJSでは下行を削除してdist/lit-api.jsを読み込むことで実行が可能
+const LifeIsTechAPI = require("../src");
 
 async function main() {
   const token = "hogehogefugafuga";
