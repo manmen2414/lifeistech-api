@@ -143,7 +143,6 @@ class Chapter extends ChapterBase {
       mode: "cors",
     });
     const rawjson = await checkAuthParseJSON(res);
-    this.isLogining = rawjson.login_status === "yes";
     if (rawjson.id !== this.id)
       throw new UnexpectedResponseError(`Unexpect ID: ${rawjson.id}`);
     this.name = rawjson.title;
